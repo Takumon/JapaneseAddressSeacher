@@ -1,0 +1,12 @@
+spring:
+    thymeleaf.cache: false #開発中はキャシュしない
+    datasource:
+        driverClassName: org.h2.Driver
+        url: jdbc:h2:file:./data
+        username: sa
+        password:
+        sql-script-encoding: UTF-8
+doma:
+    dialect: h2
+    naming: SNAKE_LOWER_CASE
+    sql-file-repository: NO_CACHE

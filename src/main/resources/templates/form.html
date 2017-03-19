@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" ></meta>
+<title>Insert title here</title>
+</head>
+<body>
+  <form action="#" th:action="@{/}" th:object="${person}" method="post">
+    <tabel>
+      <td>Name:</td>
+      <td><input type="text" th:field="*{name}" /></td>
+      <tb th:if="${#fields.hasErrors('name')" th:errors="*{name}">Name Error</tb>
+      <tr>
+        <td>Age:</td>
+        <td><input type="text" th:field="*{age}"></td>
+        <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+      </tr>
+      <tr>
+        <td><button type="submit">Submit</button></td>
+      </tr>
+    </tabel>
+  </form>
+</body>
+</html>

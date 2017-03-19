@@ -1,0 +1,10 @@
+.apt_generated
+.gradle
+.settings
+bin
+build
+.DS_Store
+.classpath
+.project
+.factorypath
+data.mv.db
