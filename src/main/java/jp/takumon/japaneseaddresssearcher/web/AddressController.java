@@ -1,4 +1,4 @@
-package jp.takumon.restsample.web;
+package jp.takumon.japaneseaddresssearcher.web;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.takumon.restsample.domain.Address;
-import jp.takumon.restsample.service.AddressService;
+import jp.takumon.japaneseaddresssearcher.domain.Address;
+import jp.takumon.japaneseaddresssearcher.service.AddressService;
 
 /**
  * 住所検索用の画面を返すコントローラー

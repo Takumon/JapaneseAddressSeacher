@@ -1,4 +1,4 @@
-package jp.takumon.restsample.error;
+package jp.takumon.japaneseaddresssearcher.error;
 
 /**
  * 業務例外

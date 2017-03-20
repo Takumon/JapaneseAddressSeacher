@@ -1,4 +1,4 @@
-package jp.takumon.restsample;
+package jp.takumon.japaneseaddresssearcher;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

@@ -1,4 +1,4 @@
-package jp.takumon.restsample.error;
+package jp.takumon.japaneseaddresssearcher.error;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import jp.takumon.restsample.AppConfig;
+import jp.takumon.japaneseaddresssearcher.AppConfig;
 
 /**
  * 例外ハンドラ

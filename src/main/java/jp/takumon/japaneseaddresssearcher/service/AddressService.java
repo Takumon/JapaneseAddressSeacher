@@ -1,4 +1,4 @@
-package jp.takumon.restsample.service;
+package jp.takumon.japaneseaddresssearcher.service;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -8,11 +8,11 @@ import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.takumon.restsample.datasource.AddressRepository;
-import jp.takumon.restsample.domain.Address;
-import jp.takumon.restsample.domain.City;
-import jp.takumon.restsample.domain.State;
-import jp.takumon.restsample.error.ProcessException;
+import jp.takumon.japaneseaddresssearcher.datasource.AddressRepository;
+import jp.takumon.japaneseaddresssearcher.domain.Address;
+import jp.takumon.japaneseaddresssearcher.domain.City;
+import jp.takumon.japaneseaddresssearcher.domain.State;
+import jp.takumon.japaneseaddresssearcher.error.ProcessException;
 
 /**
  * 住所検索サービス
