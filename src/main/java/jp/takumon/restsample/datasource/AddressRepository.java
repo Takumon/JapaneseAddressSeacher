@@ -29,7 +29,7 @@ public interface AddressRepository {
   List<Address> getSections(int cityId);
   
   @Select
-  Address findByZip(String addressZipCode);
+  List<Address> findByZip(String addressZipCode);
   
   @Select
   List<Address> findByKeyword(String keyword);

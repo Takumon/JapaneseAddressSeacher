@@ -78,13 +78,13 @@ public class AddressService {
   }
 
 
-  public Address getAddress(String addressZipCode) {
-    if (ADDRESS_ZIP_CODE_PATTERN.matcher(addressZipCode).find()) {
+  public List<Address> getAddress(String addressZipCode) {
+    if (ADDRESS_ZIP_CODE_PATTERN.matcher(addressZipCode).find() == false) {
       throw new ValidationException(String.format("指定したzipCode[%s]が郵便番号形式ではありません。", addressZipCode));
     }
     
-    Address result = addressRepository.findByZip(addressZipCode);
-    if (result == null) {
+    List<Address> result = addressRepository.findByZip(addressZipCode);
+    if (result.isEmpty()) {
       throw new ProcessException(String.format("指定したzipCode[%s]に紐づく住所は見つかりませんでした。", addressZipCode));
     }
     return result;

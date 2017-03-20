@@ -10,4 +10,4 @@ select
     state_name,
     state_kana
 from address
-where address_zip_code = /* addressZipCode */'812-0061';
+where address_zip_code = /* addressZipCode */'';

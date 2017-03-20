@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,37 +27,37 @@ public class AddressRestController {
   private AddressService addressService;
 
 
-  @RequestMapping("/states")
+  @RequestMapping(value = "/states", method = RequestMethod.GET)
   public List<State> getStates() {
     return addressService.getStates();
   }
 
 
-  @RequestMapping("/cities/stateId/{stateId}")
+  @RequestMapping(value = "/cities/stateId/{stateId}", method = RequestMethod.GET)
   public List<City> getCities(@PathVariable(value = "stateId") String stateId) {
     return addressService.getCities(stateId);
   }
 
 
-  @RequestMapping("/addresses/stateId/{stateId}")
+  @RequestMapping(value = "/addresses/stateId/{stateId}", method = RequestMethod.GET)
   public List<Address> getAddressWithStateAndKeywork(@PathVariable(value = "stateId") String stateId, @RequestParam(value = "part") String part) {
     return addressService.getAddressWithStateAndKeywork(stateId, part);
   }
 
 
-  @RequestMapping("/sections/cityId/{cityId}")
+  @RequestMapping(value = "/sections/cityId/{cityId}", method = RequestMethod.GET)
   public List<Address> getSections(@PathVariable(value = "cityId") String cityId) {
     return addressService.getSections(cityId);
   }
 
 
-  @RequestMapping("/addresses/zipcode/{addressZipCode}")
-  public Address getAddress(@PathVariable(value = "addressZipCode") String addressZipCode) {
+  @RequestMapping(value = "/addresses/zipcode/{addressZipCode}", method = RequestMethod.GET)
+  public List<Address> getAddress(@PathVariable(value = "addressZipCode") String addressZipCode) {
     return addressService.getAddress(addressZipCode);
   }
 
 
-  @RequestMapping("/addresses")
+  @RequestMapping(value = "/addresses", method = RequestMethod.GET)
   public List<Address> getAddresses(@RequestParam(value = "part") String part) {
     return addressService.getAddresses(part);
   }

@@ -2,23 +2,42 @@
 <html>
 <head>
 <meta charset="UTF-8" ></meta>
-<title>Insert title here</title>
+<title>住所検索</title>
 </head>
 <body>
-  <form action="#" th:action="@{/}" th:object="${person}" method="post">
+  <form action="/address/search" th:action="@{/address/search}" method="post">
     <tabel>
-      <td>Name:</td>
-      <td><input type="text" th:field="*{name}" /></td>
-      <tb th:if="${#fields.hasErrors('name')" th:errors="*{name}">Name Error</tb>
       <tr>
-        <td>Age:</td>
-        <td><input type="text" th:field="*{age}"></td>
-        <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+        <td>郵便番号:</td>
+        <td><input type="text" name="addressZipCode" maxlength="8" placeholder="123-4567" /></td>
       </tr>
       <tr>
-        <td><button type="submit">Submit</button></td>
+        <td><button type="submit">住所を検索</button></td>
       </tr>
     </tabel>
   </form>
+  <div th:if="${addressList != null and addressList.isEmpty() == false}">
+    <div>検索結果</div>
+    <table>
+      <tr>
+        <th>郵便番号</th>
+        <th>都道府県</th>
+        <th>都道府県カナ</th>
+        <th>市</th>
+        <th>市カナ</th>
+        <th>区町村</th>
+        <th>区町村カナ</th>
+      </tr>
+      <tr th:each="address : ${addressList}" th:object="${address}">
+        <td th:text="*{addressZipCode}"></td>
+        <td th:text="*{sectionName}"></td>
+        <td th:text="*{sectionKana}"></td>
+        <td th:text="*{cityName}"></td>
+        <td th:text="*{cityKana}"></td>
+        <td th:text="*{stateName}"></td>
+        <td th:text="*{stateKana}"></td>
+      </tr>
+    </table>
+  </div>
 </body>
 </html>
