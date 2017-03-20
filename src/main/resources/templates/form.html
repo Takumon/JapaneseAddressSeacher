@@ -47,12 +47,12 @@
             <tbody>
               <tr th:each="address : ${addressList}" th:object="${address}">
                 <td th:text="*{addressZipCode}"></td>
-                <td th:text="*{sectionName}"></td>
-                <td th:text="*{sectionKana}"></td>
-                <td th:text="*{cityName}"></td>
-                <td th:text="*{cityKana}"></td>
                 <td th:text="*{stateName}"></td>
                 <td th:text="*{stateKana}"></td>
+                <td th:text="*{cityName}"></td>
+                <td th:text="*{cityKana}"></td>
+                <td th:text="*{sectionName}"></td>
+                <td th:text="*{sectionKana}"></td>
               </tr>
             </tbody>
           </table>
