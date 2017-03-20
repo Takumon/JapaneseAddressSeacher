@@ -44,7 +44,7 @@ public class AddressController {
   @RequestMapping(value = "address/search", method = RequestMethod.POST)
   public ModelAndView searchAddress(
       @NotNull 
-      @RequestParam String addressZipCode) {
+      @RequestParam(name="addressZipCode") String addressZipCode) {
     
     ModelAndView model = new ModelAndView();
     List<Address> addressList = addressService.getAddress(addressZipCode);

@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+
+#search-condition-area {
+  margin-bottom: 20px;
+}
+
+#result-count {
+  font-size: 0.6em;
+}

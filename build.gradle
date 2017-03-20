@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-boot'
 
 defaultTasks "clean", "build"
 
@@ -31,6 +31,10 @@ jar {
 }
 
 dependencies {
+    compile group: "org.webjars", name: "jquery", version: "2.2.4"
+    compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
+    compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
+    
     compile 'com.h2database:h2:1.4.187'
     compile group: 'org.lazyluke', name:'log4jdbc-remix', version:'0.2.7'
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.2.RELEASE') {
