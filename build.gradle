@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 defaultTasks "clean", "build"
 
@@ -40,13 +40,19 @@ dependencies {
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.2.RELEASE') {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile(group: "org.springframework.boot", name: "spring-boot-starter-jetty", version: '1.5.2.RELEASE')
-    compile(group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: '1.5.2.RELEASE')
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.2.RELEASE'
+    compile group: "org.springframework.boot", name: "spring-boot-starter-jetty", version: '1.5.2.RELEASE'
+    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: '1.5.2.RELEASE'
     compile group: 'org.springframework.boot', name:'spring-boot-starter-jdbc', version:'1.5.2.RELEASE'
     compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:'1.5.2.RELEASE'
     compile group: 'org.springframework.boot', name:'spring-boot-starter-thymeleaf', version:'1.5.2.RELEASE'
     compile group: 'org.seasar.doma.boot', name: 'doma-spring-boot-starter', version: '1.1.0'
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+
+    testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:'1.5.2.RELEASE'
+    testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:'1.5.2.RELEASE'
+	testCompile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.3.1'
+    
+
 }
 
 
