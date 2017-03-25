@@ -1,5 +1,7 @@
 package jp.takumon.japaneseaddresssearcher.domain;
 
+import java.io.Serializable;
+
 import org.seasar.doma.Entity;
 
 /**
@@ -8,7 +10,9 @@ import org.seasar.doma.Entity;
  * @author takumon
  */
 @Entity
-public class State {
+public class State implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private int stateId;
 
