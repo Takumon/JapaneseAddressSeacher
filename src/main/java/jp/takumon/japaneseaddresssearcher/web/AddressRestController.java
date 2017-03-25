@@ -2,7 +2,11 @@ package jp.takumon.japaneseaddresssearcher.web;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
+import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
 import jp.takumon.japaneseaddresssearcher.service.AddressService;
+import jp.takumon.japaneseaddresssearcher.web.validate.AddressSortFormat;
 
 /**
  * 住所検索用のRESTコントローラー
@@ -20,9 +26,10 @@ import jp.takumon.japaneseaddresssearcher.service.AddressService;
  * @author takumon
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/jp")
 public class AddressRestController {
 
+  
   @Autowired
   private AddressService addressService;
 
@@ -32,33 +39,51 @@ public class AddressRestController {
     return addressService.getStates();
   }
 
-
-  @RequestMapping(value = "/cities/stateId/{stateId}", method = RequestMethod.GET)
-  public List<City> getCities(@PathVariable(value = "stateId") String stateId) {
-    return addressService.getCities(stateId);
+  
+  @RequestMapping(value = "/states/{stateName}/cities", method = RequestMethod.GET)
+  public List<City> getCities(
+      @NotBlank @PathVariable(value = "stateName") String stateName) {
+    System.out.println(stateName);
+    return addressService.getCities(stateName);
   }
 
-
-  @RequestMapping(value = "/addresses/stateId/{stateId}", method = RequestMethod.GET)
-  public List<Address> getAddressWithStateAndKeywork(@PathVariable(value = "stateId") String stateId, @RequestParam(value = "part") String part) {
-    return addressService.getAddressWithStateAndKeywork(stateId, part);
+  
+  @RequestMapping(value = "/states/{stateName}/cities/{cityName}/sections", method = RequestMethod.GET)
+  public List<Section> getSections(
+      @NotBlank @PathVariable(value = "stateName") String stateName,
+      @NotBlank @PathVariable(value = "cityName") String cityName) {
+    
+    return addressService.getSections(stateName, cityName);
   }
-
-
-  @RequestMapping(value = "/sections/cityId/{cityId}", method = RequestMethod.GET)
-  public List<Address> getSections(@PathVariable(value = "cityId") String cityId) {
-    return addressService.getSections(cityId);
+  
+  
+  @RequestMapping(value = "/states/{stateName}/cities/{cityName}/sections/{sectionName}", method = RequestMethod.GET)
+  public List<Address> getAddress(
+      @PathVariable(value = "stateName") String stateName,
+      @PathVariable(value = "cityName") String cityName,
+      @PathVariable(value = "sectionName") String sectionName) {
+    
+    return addressService.getAddress(stateName,cityName, sectionName);
   }
-
-
-  @RequestMapping(value = "/addresses/zipcode/{addressZipCode}", method = RequestMethod.GET)
-  public List<Address> getAddress(@PathVariable(value = "addressZipCode") String addressZipCode) {
+  
+  
+  @RequestMapping(value = "/addresses/{addressZipCode}", method = RequestMethod.GET)
+  public List<Address> getAddress(
+      @Pattern(regexp="^\\d{3}-\\d{4}") @PathVariable(value = "addressAipCode") String addressZipCode) {
     return addressService.getAddress(addressZipCode);
   }
-
-
-  @RequestMapping(value = "/addresses", method = RequestMethod.GET)
-  public List<Address> getAddresses(@RequestParam(value = "part") String part) {
-    return addressService.getAddresses(part);
+  
+  
+  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  public List<Address> search(
+      @RequestParam(value = "q") String keyword,
+      @NumberFormat @RequestParam(value = "offset") String offset,
+      @NumberFormat @RequestParam(value = "limit") String limit,
+      @AddressSortFormat @RequestParam(value = "sort") String sort) {
+    return addressService.searchAddresses(keyword);
   }
+
+
+
+  
 }

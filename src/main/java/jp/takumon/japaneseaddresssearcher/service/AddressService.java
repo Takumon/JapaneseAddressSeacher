@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import jp.takumon.japaneseaddresssearcher.datasource.AddressRepository;
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
+import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
 import jp.takumon.japaneseaddresssearcher.error.ProcessException;
 
@@ -22,8 +23,6 @@ import jp.takumon.japaneseaddresssearcher.error.ProcessException;
 @Service
 public class AddressService {
 
-  private static final Pattern ADDRESS_ZIP_CODE_PATTERN = Pattern.compile("^\\d{3}-\\d{4}$");
-
   @Autowired
   private AddressRepository addressRepository;
 
@@ -33,68 +32,54 @@ public class AddressService {
   }
 
 
-  public List<City> getCities(String stateId) {
-    int id;
-    try {
-      id = Integer.parseInt(stateId);
-    } catch (NumberFormatException e) {
-      throw new ValidationException(String.format("指定したstateId[%s]は数値ではありません。", stateId));
-    }
-    List<City> result = addressRepository.getCities(id);
+  public List<City> getCities(String stateName) {
+    List<City> result = addressRepository.getCities(stateName);
+
     if (result.isEmpty()) {
-      throw new ProcessException(String.format("指定したstateId[%s]に紐づく住所は見つかりませんでした。", id));
+      throw new ProcessException(String.format("指定したstateName[%s]に紐づCityは見つかりませんでした。", stateName));
     }
     return result;
   }
 
 
-  public List<Address> getAddressWithStateAndKeywork(String stateId, String keyword) {
-    int id;
-    try {
-      id = Integer.parseInt(stateId);
-    } catch (NumberFormatException e) {
-      throw new ValidationException(String.format("指定したstateId[%s]は数値ではありません。", stateId));
-    }
-    List<Address> result = addressRepository.findByStateAndKeyword(id, keyword);
+  public List<Section> getSections(String stateName, String cityName) {
+    List<Section> result = addressRepository.getSections(stateName, cityName);
+
     if (result.isEmpty()) {
-      throw new ProcessException(String.format("指定したstateId[%d]とkeyword[%s]に紐づく住所は見つかりませんでした。", id, keyword));
+      throw new ProcessException(String
+          .format("指定したstateName[%s]とcityName[%s]に紐づくSectionは見つかりませんでした。", cityName, cityName));
     }
     return result;
   }
 
 
-  public List<Address> getSections(String cityId) {
-    int id;
-    try {
-      id = Integer.parseInt(cityId);
-    } catch (NumberFormatException e) {
-      throw new ValidationException(String.format("cityId[%s]は数値を指定してください。", cityId));
-    }
-    List<Address> result = addressRepository.getSections(id);
+  public List<Address> getAddress(String stateName, String cityName, String sectionName) {
+    List<Address> result = addressRepository.find(stateName, cityName, sectionName);
+
     if (result.isEmpty()) {
-      throw new ProcessException(String.format("指定したcityId[%s]に紐づく住所は見つかりませんでした。", cityId));
+      throw new ProcessException(
+          String.format("指定したstateName[%s]cityName[%s]sectionName[%s]に紐づく住所は見つかりませんでした。", stateName,
+              cityName, sectionName));
     }
     return result;
   }
-
 
   public List<Address> getAddress(String addressZipCode) {
-    if (ADDRESS_ZIP_CODE_PATTERN.matcher(addressZipCode).find() == false) {
-      throw new ValidationException(String.format("指定したzipCode[%s]が郵便番号形式ではありません。", addressZipCode));
-    }
-    
-    List<Address> result = addressRepository.findByZip(addressZipCode);
+    List<Address> result = addressRepository.findByAddressZipCode(addressZipCode);
+
     if (result.isEmpty()) {
-      throw new ProcessException(String.format("指定したzipCode[%s]に紐づく住所は見つかりませんでした。", addressZipCode));
+      throw new ProcessException(
+          String.format("指定したzipCode[%s]に紐づく住所は見つかりませんでした。", addressZipCode));
     }
     return result;
   }
 
 
-  public List<Address> getAddresses(String part) {
-    List<Address> result = addressRepository.findByKeyword(part);
+  public List<Address> searchAddresses(String keyword) {
+    List<Address> result = addressRepository.findByKeyword(keyword);
+
     if (result.isEmpty()) {
-      throw new ProcessException(String.format("指定したpart[%s]に紐づく住所は見つかりませんでした。", part));
+      throw new ProcessException(String.format("指定したkeyword[%s]に紐づく住所は見つかりませんでした。", keyword));
     }
     return result;
   }

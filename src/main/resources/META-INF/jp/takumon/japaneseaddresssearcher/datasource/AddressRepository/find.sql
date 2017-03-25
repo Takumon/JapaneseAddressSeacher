@@ -23,6 +23,13 @@ select
   new_id
 from address
 where 
-    state_name like /* @infix(keyword) */'%X%'
-    or city_name like /* @infix(keyword) */'%X%'
-    or section_name  like /* @infix(keyword) */'%X%';
+  /*%if @isNotBlank(stateName) */
+    state_name = /* stateName */''
+  /*%end*/
+  /*%if @isNotBlank(cityName) */
+    city_name = /* cityName */''
+  /*%end*/
+  /*%if @isNotBlank(sectionName) */
+    section_name = /* sectionName */''
+  /*%end*/
+order by id;

@@ -8,6 +8,7 @@ import org.seasar.doma.boot.ConfigAutowireable;
 
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
+import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
 
 /**
@@ -24,21 +25,21 @@ public interface AddressRepository {
 
 
   @Select
-  List<City> getCities(int stateId);
+  List<City> getCities(String stateName);
 
 
   @Select
-  List<Address> getSections(int cityId);
+  List<Section> getSections(String stateName, String cityName);
 
 
   @Select
-  List<Address> findByZip(String addressZipCode);
+  List<Address> find(String stateName, String cityName, String sectionName);
+
+
+  @Select
+  List<Address> findByAddressZipCode(String addressZipCode);
 
 
   @Select
   List<Address> findByKeyword(String keyword);
-
-
-  @Select
-  List<Address> findByStateAndKeyword(int stateId, String keyword);
 }

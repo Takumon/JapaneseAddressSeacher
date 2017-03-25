@@ -23,6 +23,5 @@ select
   new_id
 from address
 where 
-    state_name like /* @infix(keyword) */'%X%'
-    or city_name like /* @infix(keyword) */'%X%'
-    or section_name  like /* @infix(keyword) */'%X%';
+  address_zip_code = /* addressZipCode */''
+order by id;

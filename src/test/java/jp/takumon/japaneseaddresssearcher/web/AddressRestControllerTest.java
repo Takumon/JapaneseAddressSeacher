@@ -1,6 +1,7 @@
 package jp.takumon.japaneseaddresssearcher.web;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.UriUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -47,7 +49,7 @@ public class AddressRestControllerTest {
     
     given(this.addressService.getStates()).willReturn(states);
     
-    this.mvc.perform(get("/api/states").accept(MediaType.APPLICATION_JSON))
+    this.mvc.perform(get("/api/v1/jp/states").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().json(mapper.writeValueAsString(states)));
     
@@ -57,10 +59,13 @@ public class AddressRestControllerTest {
   public void getCities_正常() throws Exception {
     List<City> cities = new ArrayList<>();
     cities.add(TestHelper.createCity(40133, "福岡市中央区", "フクオカシチュウオウク", 500, 40, "福岡県", "フクオカケン"));
-
-    given(this.addressService.getCities("40")).willReturn(cities);
+    // 日本語URLはあらかじめエンコードしておく必要がある
+    String stateName = UriUtils.encode("福岡県", "utf-8");
     
-    this.mvc.perform(get("/api/cities/stateId/40").accept(MediaType.APPLICATION_JSON))
+    given(this.addressService.getCities(stateName)).willReturn(cities);
+    
+    System.out.println(stateName);
+    this.mvc.perform(get("/api/v1/jp/states/" + stateName + "/cities").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().json(mapper.writeValueAsString(cities)));
   }

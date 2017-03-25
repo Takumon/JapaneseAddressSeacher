@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 
 @RunWith(SpringRunner.class)
@@ -67,7 +68,9 @@ public class AddressControllerTest {
     given(addressService.getAddress("001-0011")).willReturn(addresses);
 
     this.mvc.perform(post("/address/search").param("addressZipCode", "001-0011"))
-        .andExpect(status().isOk()).andExpect(view().name("form"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("form"))
+        .andExpect(model().attribute("addressList", addresses))
         .andExpect(content().string(containsString("<title>住所検索</title>")))
         .andExpect(content().string(containsString("検索結果")));
   }
@@ -80,7 +83,8 @@ public class AddressControllerTest {
 
     given(addressService.getAddress(anyString())).willReturn(addresses);
 
-    // リクエストパラメータにaddressZipCodeを定義しない「
-    this.mvc.perform(post("/address/search")).andExpect(status().is(400));
+    // リクエストパラメータにaddressZipCodeを定義しない
+    this.mvc.perform(post("/address/search"))
+        .andExpect(status().is(400));
   }
 }

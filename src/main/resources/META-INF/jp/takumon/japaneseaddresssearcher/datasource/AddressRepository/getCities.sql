@@ -7,6 +7,7 @@ select
     state_kana,
     count(*) as city_section_count
 from address
-where state_id = /* stateId */40
+where 
+  state_name = /* stateName */''
 group by city_id
 order by city_id;

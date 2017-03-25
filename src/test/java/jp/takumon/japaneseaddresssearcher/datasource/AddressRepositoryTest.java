@@ -33,7 +33,7 @@ public class AddressRepositoryTest {
 
   @Test
   public void findByZip_正常() {
-    List<Address> actual = addressRepository.findByZip("146-0093");
+    List<Address> actual = addressRepository.findByAddressZipCode("146-0093");
     assertThat(actual.size()).isEqualTo(1);
 
     collector.checkThat(actual.get(0).getAddressZipCode(), equalTo("146-0093"));
@@ -50,7 +50,7 @@ public class AddressRepositoryTest {
 
   @Test
   public void findByZip_addressZipCodが存在しない郵便番号() {
-    List<Address> actual = addressRepository.findByZip("999-9999");
+    List<Address> actual = addressRepository.findByAddressZipCode("999-9999");
     assertThat(actual.size()).isEqualTo(0);
   }
 

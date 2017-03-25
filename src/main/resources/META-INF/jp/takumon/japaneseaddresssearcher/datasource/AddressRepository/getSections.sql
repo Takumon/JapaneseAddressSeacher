@@ -10,4 +10,7 @@ select
     state_name,
     state_kana
 from address
-where city_id = /* cityId */40131;
+where
+  state_name = /* stateName */''
+  city_name = /* cityName */'';
+order by section_id
