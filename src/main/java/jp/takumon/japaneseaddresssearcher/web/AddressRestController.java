@@ -39,14 +39,30 @@ public class AddressRestController {
     return addressService.getStates();
   }
 
-  
+
+  @RequestMapping(value = "/states/{stateName}", method = RequestMethod.GET)
+  public State getState(
+      @NotBlank @PathVariable(value = "stateName") String stateName) {
+    return addressService.getState(stateName);
+  }
+
+
   @RequestMapping(value = "/states/{stateName}/cities", method = RequestMethod.GET)
   public List<City> getCities(
       @NotBlank @PathVariable(value = "stateName") String stateName) {
     return addressService.getCities(stateName);
   }
 
-  
+
+  @RequestMapping(value = "/states/{stateName}/cities/{cityName}", method = RequestMethod.GET)
+  public City getCity(
+      @NotBlank @PathVariable(value = "stateName") String stateName,
+      @NotBlank @PathVariable(value = "cityName") String cityName) {
+    
+    return addressService.getCity(stateName, cityName);
+  }
+
+
   @RequestMapping(value = "/states/{stateName}/cities/{cityName}/sections", method = RequestMethod.GET)
   public List<Section> getSections(
       @NotBlank @PathVariable(value = "stateName") String stateName,
@@ -54,9 +70,19 @@ public class AddressRestController {
     
     return addressService.getSections(stateName, cityName);
   }
-  
-  
+
+
   @RequestMapping(value = "/states/{stateName}/cities/{cityName}/sections/{sectionName}", method = RequestMethod.GET)
+  public Section getSection(
+      @PathVariable(value = "stateName") String stateName,
+      @PathVariable(value = "cityName") String cityName,
+      @PathVariable(value = "sectionName") String sectionName) {
+    
+    return addressService.getSection(stateName,cityName, sectionName);
+  }
+
+
+  @RequestMapping(value = "/states/{stateName}/cities/{cityName}/sections/{sectionName}/addresses", method = RequestMethod.GET)
   public List<Address> getAddress(
       @PathVariable(value = "stateName") String stateName,
       @PathVariable(value = "cityName") String cityName,
@@ -64,14 +90,15 @@ public class AddressRestController {
     
     return addressService.getAddress(stateName,cityName, sectionName);
   }
-  
-  
+
+
   @RequestMapping(value = "/addresses/{addressZipCode}", method = RequestMethod.GET)
   public List<Address> getAddress(
       @Pattern(regexp="^\\d{3}-\\d{4}", message="郵便番号が999-9999の形式ではありません。") @PathVariable(value = "addressZipCode") String addressZipCode) {
     return addressService.getAddress(addressZipCode);
   }
-  
+
+
   @RequestMapping(value = "/search", method = RequestMethod.GET)
   public List<Address> search(
       @NotBlank @RequestParam(value = "q") String keyword,
@@ -81,8 +108,4 @@ public class AddressRestController {
 
     return addressService.searchAddresses(keyword, sort, offset, limit);
   }
-
-
-
-  
 }

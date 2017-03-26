@@ -1,5 +1,4 @@
 select
-    address_zip_code,
     section_id,
     section_name,
     section_kana,
@@ -8,10 +7,11 @@ select
     city_kana,
     state_id,
     state_name,
-    state_kana
+    state_kana,
+    count(*) as address_count
 from address
 where
   state_name = /* stateName */''
   and city_name = /* cityName */''
-order by section_id
-;
+group by section_id
+order by section_id;

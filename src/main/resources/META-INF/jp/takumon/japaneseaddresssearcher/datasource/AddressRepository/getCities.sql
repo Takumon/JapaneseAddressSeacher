@@ -5,7 +5,7 @@ select
     state_id,
     state_name,
     state_kana,
-    count(*) as city_section_count
+    count(*) as section_count
 from address
 where 
   state_name = /* stateName */''

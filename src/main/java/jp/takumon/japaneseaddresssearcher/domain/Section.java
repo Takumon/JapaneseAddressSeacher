@@ -1,5 +1,6 @@
 package jp.takumon.japaneseaddresssearcher.domain;
 
+
 import java.io.Serializable;
 
 import org.seasar.doma.Entity;
@@ -13,8 +14,6 @@ import org.seasar.doma.Entity;
 public class Section implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  private String addressZipCode;
 
   private int sectionId;
 
@@ -34,16 +33,7 @@ public class Section implements Serializable {
 
   private String stateKana;
 
-  
-  public String getAddressZipCode() {
-    return addressZipCode;
-  }
-
-
-  public void setAddressZipCode(String addressZipCode) {
-    this.addressZipCode = addressZipCode;
-  }
-
+  private int addressCount;
 
   public int getSectionId() {
     return sectionId;
@@ -133,4 +123,15 @@ public class Section implements Serializable {
   public void setStateKana(String stateKana) {
     this.stateKana = stateKana;
   }
+
+
+  public int getAddressCount() {
+    return addressCount;
+  }
+
+
+  public void setAddressCount(int addressCount) {
+    this.addressCount = addressCount;
+  }
+
 }

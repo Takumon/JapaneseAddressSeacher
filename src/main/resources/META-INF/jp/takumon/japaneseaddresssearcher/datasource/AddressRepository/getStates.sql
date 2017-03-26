@@ -2,7 +2,7 @@ select
     tb1.state_id as state_id,
     tb1.state_name as state_name,
     tb1.state_kana as state_kana,
-    count(*) as state_city_count
+    count(*) as city_count
 from
     (
         select state_id, state_name, state_kana

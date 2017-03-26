@@ -20,7 +20,7 @@ public class State implements Serializable {
 
   private String stateKana;
 
-  private int stateCityCount;
+  private int cityCount;
 
 
   public int getStateId() {
@@ -53,12 +53,12 @@ public class State implements Serializable {
   }
 
 
-  public int getStateCityCount() {
-    return stateCityCount;
+  public int getCityCount() {
+    return cityCount;
   }
 
 
-  public void setStateCityCount(int stateCityCount) {
-    this.stateCityCount = stateCityCount;
+  public void setCityCount(int cityCount) {
+    this.cityCount = cityCount;
   }
 }

@@ -26,11 +26,23 @@ public interface AddressRepository {
 
 
   @Select
+  State getState(String stateName);
+
+
+  @Select
   List<City> getCities(String stateName);
 
 
   @Select
+  City getCity(String stateName, String cityName);
+
+
+  @Select
   List<Section> getSections(String stateName, String cityName);
+
+
+  @Select
+  Section getSection(String stateName, String cityName, String sectionName);
 
 
   @Select

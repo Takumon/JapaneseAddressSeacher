@@ -26,7 +26,7 @@ public class City implements Serializable{
 
   private String stateKana;
 
-  private int citySectionCount;
+  private int sectionCount;
 
 
   public int getCityId() {
@@ -89,12 +89,12 @@ public class City implements Serializable{
   }
 
 
-  public int getCitySectionCount() {
-    return citySectionCount;
+  public int getSectionCount() {
+    return sectionCount;
   }
 
 
-  public void setCitySectionCount(int citySectionCount) {
-    this.citySectionCount = citySectionCount;
+  public void setSectionCount(int sectionCount) {
+    this.sectionCount = sectionCount;
   }
 }

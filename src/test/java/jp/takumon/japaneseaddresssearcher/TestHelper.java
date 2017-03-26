@@ -18,20 +18,20 @@ public class TestHelper {
    * @param stateId
    * @param stateName
    * @param stateKana
-   * @param stateCityCount
+   * @param cityCount
    * @return {@link State}オブジェクト
    */
   public static State createState(
       int stateId, 
       String stateName, 
       String stateKana, 
-      int stateCityCount) {
+      int cityCount) {
     
     State result = new State();
     result.setStateId(stateId);
     result.setStateName(stateName);
     result.setStateKana(stateKana);
-    result.setStateCityCount(stateCityCount);
+    result.setCityCount(cityCount);
     return result;
   }
   
@@ -41,7 +41,7 @@ public class TestHelper {
    * 
    * @param cityName
    * @param cityKana
-   * @param citySectionCount
+   * @param sectionCount
    * @param stateId
    * @param stateName
    * @param stateKana
@@ -51,7 +51,7 @@ public class TestHelper {
       int cityId, 
       String cityName, 
       String cityKana, 
-      int citySectionCount,
+      int sectionCount,
       int stateId, 
       String stateName, 
       String stateKana) {
@@ -60,7 +60,7 @@ public class TestHelper {
     result.setCityId(cityId);
     result.setCityName(cityName);
     result.setCityKana(cityKana);
-    result.setCitySectionCount(citySectionCount);
+    result.setSectionCount(sectionCount);
     result.setStateId(stateId);
     result.setStateName(stateName);
     result.setStateKana(stateKana);
