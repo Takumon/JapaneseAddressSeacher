@@ -10,9 +10,11 @@ import org.seasar.doma.Entity;
  * @author takumon
  */
 @Entity
-public class Section implements Serializable{
-  
+public class Section implements Serializable {
+
   private static final long serialVersionUID = 1L;
+
+  private String addressZipCode;
 
   private int sectionId;
 
@@ -31,6 +33,16 @@ public class Section implements Serializable{
   private String stateName;
 
   private String stateKana;
+
+  
+  public String getAddressZipCode() {
+    return addressZipCode;
+  }
+
+
+  public void setAddressZipCode(String addressZipCode) {
+    this.addressZipCode = addressZipCode;
+  }
 
 
   public int getSectionId() {

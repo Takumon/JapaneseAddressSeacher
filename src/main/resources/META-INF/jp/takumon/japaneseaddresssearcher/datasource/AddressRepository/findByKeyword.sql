@@ -25,4 +25,6 @@ from address
 where 
     state_name like /* @infix(keyword) */'%X%'
     or city_name like /* @infix(keyword) */'%X%'
-    or section_name  like /* @infix(keyword) */'%X%';
+    or section_name  like /* @infix(keyword) */'%X%'
+/*# orderBy */
+;

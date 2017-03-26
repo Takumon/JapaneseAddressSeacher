@@ -27,9 +27,9 @@ where
     state_name = /* stateName */''
   /*%end*/
   /*%if @isNotBlank(cityName) */
-    city_name = /* cityName */''
+    and city_name = /* cityName */''
   /*%end*/
   /*%if @isNotBlank(sectionName) */
-    section_name = /* sectionName */''
+    and section_name = /* sectionName */''
   /*%end*/
 order by id;

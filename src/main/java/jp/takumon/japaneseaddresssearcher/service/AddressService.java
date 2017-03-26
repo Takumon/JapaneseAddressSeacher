@@ -1,10 +1,10 @@
 package jp.takumon.japaneseaddresssearcher.service;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.validation.ValidationException;
 
+import org.seasar.doma.jdbc.SelectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,8 @@ import jp.takumon.japaneseaddresssearcher.domain.City;
 import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
 import jp.takumon.japaneseaddresssearcher.error.ProcessException;
+import jp.takumon.japaneseaddresssearcher.service.convert.AddressSort;
+import jp.takumon.japaneseaddresssearcher.service.convert.AddressSortHelper;
 
 /**
  * 住所検索サービス
@@ -75,8 +77,17 @@ public class AddressService {
   }
 
 
-  public List<Address> searchAddresses(String keyword) {
-    List<Address> result = addressRepository.findByKeyword(keyword);
+  public List<Address> searchAddresses(String keyword, String sort, int offset, int limit) {
+    if(AddressSortHelper.isValid(sort) == false) {
+      throw new ValidationException(AddressSortHelper.errorMassage());
+    }
+    
+    List<AddressSort> convertedSort = AddressSortHelper.convert(sort);
+    String orderBy = AddressSortHelper.convertOrderByInSql(convertedSort);
+    
+    SelectOptions options = SelectOptions.get().offset(offset).limit(limit);
+    
+    List<Address> result = addressRepository.findByKeyword(keyword, orderBy, options);
 
     if (result.isEmpty()) {
       throw new ProcessException(String.format("指定したkeyword[%s]に紐づく住所は見つかりませんでした。", keyword));

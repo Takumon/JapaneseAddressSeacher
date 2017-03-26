@@ -5,6 +5,7 @@ import java.util.List;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.seasar.doma.jdbc.SelectOptions;
 
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
@@ -41,5 +42,5 @@ public interface AddressRepository {
 
 
   @Select
-  List<Address> findByKeyword(String keyword);
+  List<Address> findByKeyword(String keyword, String orderBy, SelectOptions options);
 }

@@ -64,7 +64,6 @@ public class AddressRestControllerTest {
     
     given(this.addressService.getCities(stateName)).willReturn(cities);
     
-    System.out.println(stateName);
     this.mvc.perform(get("/api/v1/jp/states/" + stateName + "/cities").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().json(mapper.writeValueAsString(cities)));

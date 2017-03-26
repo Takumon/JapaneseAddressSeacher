@@ -3,6 +3,7 @@ package jp.takumon.japaneseaddresssearcher.web;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -29,6 +30,7 @@ public class AddressController {
   AddressService addressService;
 
 
+  // 入力値の空白はトリムする
   @InitBinder
   public void initBinder(WebDataBinder binder) {
     binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -43,7 +45,8 @@ public class AddressController {
 
   @RequestMapping(value = "address/search", method = RequestMethod.POST)
   public ModelAndView searchAddress(
-      @NotNull 
+      @NotNull(message="郵便番号を入力してください。")
+      @Pattern(regexp="^\\d{3}-\\d{4}", message="郵便番号が999-9999の形式ではありません。")
       @RequestParam(name="addressZipCode") String addressZipCode) {
     
     ModelAndView model = new ModelAndView();

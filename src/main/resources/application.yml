@@ -6,7 +6,14 @@ spring:
         username: sa
         password:
         sql-script-encoding: UTF-8
+    devtools:
+      restart:
+        enabled: true
 doma:
     dialect: h2
     naming: SNAKE_LOWER_CASE
     sql-file-repository: NO_CACHE
+#検索条件のプロパティ
+search:
+    offset: 0
+    limit: 500

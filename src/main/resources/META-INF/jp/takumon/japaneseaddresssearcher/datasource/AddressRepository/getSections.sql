@@ -12,5 +12,6 @@ select
 from address
 where
   state_name = /* stateName */''
-  city_name = /* cityName */'';
+  and city_name = /* cityName */''
 order by section_id
+;
