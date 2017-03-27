@@ -2,7 +2,6 @@ package jp.takumon.japaneseaddresssearcher.service;
 
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
 import javax.validation.ValidationException;
 
 import org.seasar.doma.jdbc.SelectOptions;
