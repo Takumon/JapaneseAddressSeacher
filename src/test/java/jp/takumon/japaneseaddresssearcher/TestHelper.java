@@ -41,7 +41,7 @@ public class TestHelper {
    * 
    * @param cityName
    * @param cityKana
-   * @param sectionCount
+   * @param citySectionCount
    * @param stateId
    * @param stateName
    * @param stateKana
@@ -51,7 +51,7 @@ public class TestHelper {
       int cityId, 
       String cityName, 
       String cityKana, 
-      int sectionCount,
+      int citySectionCount,
       int stateId, 
       String stateName, 
       String stateKana) {
@@ -60,7 +60,7 @@ public class TestHelper {
     result.setCityId(cityId);
     result.setCityName(cityName);
     result.setCityKana(cityKana);
-    result.setSectionCount(sectionCount);
+    result.setSectionCount(citySectionCount);
     result.setStateId(stateId);
     result.setStateName(stateName);
     result.setStateKana(stateKana);
