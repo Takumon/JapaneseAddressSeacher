@@ -1,5 +1,8 @@
 buildscript {
     repositories {
+        maven {url "http //repo1.maven.org/maven2"}
+        maven {url "https //plugins.gradle.org/m2"}
+        mavenLocal()
         mavenCentral()
     }
     dependencies {
@@ -7,34 +10,40 @@ buildscript {
     }
 }
 
+
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'application'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'jacoco'
 apply plugin: 'eclipse'
-apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
+
+version = '0.9'
 defaultTasks "clean", "build"
 
-sourceCompatibility = targetCompatibility  = 1.8
-def defaultEncoding = 'UTF-8'
+ext {
+    javaVersion = 1.8
+    defaultEncoding = 'UTF-8'
+    
+}
+
+
+sourceCompatibility = javaVersion
+targetCompatibility  = javaVersion
 tasks.withType(AbstractCompile)*.options*.encoding = defaultEncoding
 tasks.withType(GroovyCompile)*.groovyOptions*.encoding = defaultEncoding
-
 mainClassName = 'jp.takumon.japaneseaddresssearcher.App'
+
+
 repositories {
     mavenCentral()
     maven { url "https://repository.jboss.org/nexus/content/repositories/releases"}
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-}
-
-jar {
-    baseName = 'address-searcher'
-    version =  '0.1.0'
 }
 
 
@@ -62,8 +71,9 @@ dependencies {
 }
 
 
-task wrapper (type: Wrapper) {
-    gradleVersion = '3.4'
+jar {
+    baseName = 'address-searcher'
+    version =  '0.1.0'
 }
 
 // Doma設定 コンパイル前にSQLファイルをビルド先に移動する
@@ -72,13 +82,89 @@ compileJava.dependsOn processResources
 
 
 checkstyle {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
     toolVersion = '6.7'
 }
 
+tasks.withType(Checkstyle) {
+    reports {
+      html.enabled = true
+      xml.enabled = true
+    }
+}
+
 findbugs {
-  toolVersion = "3.0.1"
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+    toolVersion = "3.0.1"
+}
+
+findbugsMain {
+    reports {
+      xml.enabled = true
+    }
+}
+
+pmd {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+}
+
+tasks.withType(Pmd) {
+    reports {
+      html.enabled = true
+      xml.enabled = true
+    }
+}
+
+check.doLast {
+    File outputDir = new File("$reportsDir/cpd/")
+    outputDir.mkdirs()
+    println new File(outputDir, 'cpd.xml')
+  
+    ant.taskdef(
+        name: 'cpd', 
+        classname: 'net.sourceforge.pmd.cpd.CPDTask',
+        classpath: configurations.pmd.asPath)
+  
+    ant.cpd(
+        minimumTokenCount: '100',
+        format: 'xml',
+        encoding: defaultEncoding,
+        outputFile: new File(outputDir, 'cpd.xml')
+    ) {
+        fileset(dir: "src/main/java") {
+            include(name: '**/*.java')
+        }
+    }
+}
+
+javadoc {
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    failOnError = false
+}
+
+test {
+    ignoreFailures = true
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+}
+
+jacoco {
+    toolVersion = '0.7.5.201505241946'
+}
+
+jacocoTestReport {
+    reports {
+      html.enabled = true
+      xml.enabled = true
+    }
 }
 
 
-
-
+task wrapper (type: Wrapper) {
+    gradleVersion = '3.4'
+}
