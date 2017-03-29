@@ -39,8 +39,6 @@ jar {
 
 
 dependencies {
-    //compile group: "commons-cli", name: "commons-cli", version: "1.3.1"
-    
     compile group: "org.webjars", name: "jquery", version: "2.2.4"
     compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
@@ -79,35 +77,4 @@ checkstyle {
 
 findbugs {
   toolVersion = "3.0.1"
-}
-
-
-run {
-  standardInput = System.in
-}
-
-
-
-import java.util.concurrent.Callable
-
-task hoge {
-  doLast {
-    //copy(encoding: 'UTF-8') {
-    //  String targetName = 'SimpleBean'
-    //  from 'src/dist/doc/template'
-    //  into 'src/dist/doc/output'
-    //  expand packageName: 'com.example.bean', className: 'targetName', fields:['String': 'name', 'int':'value']
-    //  
-    //  rename 'template.java', "${targetName}.java"
-    //}
-    logger.error 'エラーメッセージ'
-    logger.quiet '重要なメッセージ'
-    logger.warn '警告メッセージ'
-    logger.lifecycle 'ビルド時の進行状況を表すメッセージ'
-    logger.info 'インフォメーションメッセージ'
-    logger.debug 'デバッグメッセージ'
-    delete 'src/dist/doc/output'
-    
-    println System.properties['message']
-  }
 }
