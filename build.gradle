@@ -88,15 +88,9 @@ checkstyle {
 }
 
 findbugs {
-    ignoreFailures = true
-    sourceSets = [sourceSets.main]
     toolVersion = "3.0.1"
-}
-
-findbugsMain {
-    reports {
-      xml.enabled = true
-    }
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
 }
 
 pmd {
