@@ -87,13 +87,6 @@ checkstyle {
     toolVersion = '7.6.1'
 }
 
-tasks.withType(Checkstyle) {
-    reports {
-        xml.enabled true
-        html.enabled true
-    }
-}
-
 findbugs {
     ignoreFailures = true
     sourceSets = [sourceSets.main]
