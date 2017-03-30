@@ -84,7 +84,7 @@ compileJava.dependsOn processResources
 checkstyle {
     ignoreFailures = true
     sourceSets = [sourceSets.main]
-    toolVersion = '7.2'
+    toolVersion = '7.6.1'
 }
 
 findbugs {
@@ -158,5 +158,5 @@ jacocoTestReport {
 
 
 task wrapper (type: Wrapper) {
-    gradleVersion = '3.4'
+    gradleVersion = '3.4.1'
 }
