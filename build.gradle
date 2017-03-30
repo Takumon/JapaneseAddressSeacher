@@ -84,13 +84,7 @@ compileJava.dependsOn processResources
 checkstyle {
     ignoreFailures = true
     sourceSets = [sourceSets.main]
-    toolVersion = '7.6'
-}
-
-tasks.withType(Checkstyle) {
-    reports {
-      xml.enabled = true
-    }
+    toolVersion = '7.6.1'
 }
 
 findbugs {
