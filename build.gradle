@@ -84,7 +84,7 @@ compileJava.dependsOn processResources
 checkstyle {
     ignoreFailures = true
     sourceSets = [sourceSets.main]
-    toolVersion = '7.6.1'
+    toolVersion = '7.2'
 }
 
 findbugs {
