@@ -89,7 +89,7 @@ checkstyle {
 
 findbugs {
     toolVersion = "3.0.1"
-    sourceSets = [sourceSets.main]
+    sourceSets = [sourceSets.main.java]
     ignoreFailures = true
 }
 
