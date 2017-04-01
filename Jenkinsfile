@@ -20,7 +20,7 @@ node {
     }
     
     stage('静的コード解析') {
-        //gradle('check -x test')
+        gradle('check -x test')
     }
     
     stage('テスト') {
@@ -40,9 +40,9 @@ node {
 
 def gradle(command) {
     if(isUnix()) {
-        sh './gradlew ${command} --stacktrace'
+        sh "./gradlew ${command} --stacktrace"
     } else {
-        bat './gradlew.bat  ${command} --stacktrace'
+        bat "./gradlew.bat  ${command} --stacktrace"
     }
 }
 
