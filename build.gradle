@@ -146,8 +146,18 @@ jacocoTestReport {
       html.enabled = true
       xml.enabled = true
     }
+    
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                exclude: [
+                    '**/*Test.class', // Testクラス
+                    '**/_*.class', // Domaが自動生成するEntityクラス
+                    '**/TestHelper.class' // Test用ユーティル
+                ])
+        })
+    }
 }
-
 
 task wrapper (type: Wrapper) {
     gradleVersion = '3.4.1'
