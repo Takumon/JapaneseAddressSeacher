@@ -89,7 +89,15 @@ checkstyle {
 
 findbugs {
     toolVersion = "3.0.1"
-    sourceSets = [sourceSets.main.java.srcDirs]
+    println sourceSets
+    println sourceSets.class
+    println sourceSets.main
+    println sourceSets.main.class
+    println sourceSets.main.java
+    println sourceSets.main.java.class
+    println sourceSets.main.java.srcDirs
+    println sourceSets.main.java.srcDirs.class
+    sourceSets = [sourceSets.main]
     ignoreFailures = true
 }
 
