@@ -106,7 +106,8 @@ node {
                 archiveArtifacts "${testReportDir}/*.xml"
                 step([
                     $class: 'hudson.plugins.jacoco.JacocoPublisher',
-                    execPattern: "${jacocoReportDir}/*.exec"
+                    execPattern: "${jacocoReportDir}/*.exec",
+                    exclusionPattern: '**/*Test.class,**/_*.class,**/TestHelper.class'
                 ])
             }
         }
