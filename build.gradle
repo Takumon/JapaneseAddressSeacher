@@ -106,7 +106,6 @@ tasks.withType(Pmd) {
 check.doLast {
     File outputDir = new File("$reportsDir/cpd/")
     outputDir.mkdirs()
-    println new File(outputDir, 'cpd.xml')
   
     ant.taskdef(
         name: 'cpd', 
