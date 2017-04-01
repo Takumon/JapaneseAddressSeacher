@@ -147,14 +147,14 @@ jacocoTestReport {
       xml.enabled = true
     }
     
-    afterEvaluate {
+    // カバレッジ測定対象外のクラスを除外
+    afterEvaluate { 
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it,
-                exclude: [
-                    '**/*Test.class', // Testクラス
-                    '**/_*.class', // Domaが自動生成するEntityクラス
-                    '**/TestHelper.class' // Test用ユーティル
-                ])
+            fileTree(dir: it, exclude: [
+                '**/*Test.class', // Testクラス
+                '**/_*.class', // Domaが生成するクラス
+                '**/TestHelper.class', // Test用ユーティルクラス
+            ]) 
         })
     }
 }
