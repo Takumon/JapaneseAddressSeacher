@@ -1,6 +1,9 @@
 node {
     def workspaceTempDir = "${WORKSPACE}@script"
-    
+    sh 'ls'
+    dir(workspaceTempDir) {
+      sh 'ls'
+    }
     stage('事前処理') {
         // permission deniedで怒られないために実行権限を付与する
         if(isUnix()) {
@@ -16,7 +19,7 @@ node {
     parallel (
         '静的コード解析' : {
             stage('静的コード解析') {
-                gradle('check -x test')
+                //gradle('check -x test')
             }
         },
         'テスト' : {
