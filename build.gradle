@@ -24,7 +24,6 @@ apply plugin: 'org.springframework.boot'
 
 
 version = '0.9'
-defaultTasks "clean", "build"
 
 ext {
     javaVersion = 1.8
@@ -89,14 +88,6 @@ checkstyle {
 
 findbugs {
     toolVersion = "3.0.1"
-    println sourceSets
-    println sourceSets.class
-    println sourceSets.main
-    println sourceSets.main.class
-    println sourceSets.main.java
-    println sourceSets.main.java.class
-    println sourceSets.main.java.srcDirs
-    println sourceSets.main.java.srcDirs.class
     sourceSets = [sourceSets.main]
     ignoreFailures = true
 }
