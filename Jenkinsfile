@@ -7,6 +7,9 @@ pipeline {
         testReportDir = 'build/test-results/test'
         jacocoReportDir = 'build/jacoco' 
         javadocDir = 'build/docs/javadoc'
+        libsDir = 'build/libs'
+        appName = 'AddressSearcher'
+        appVersion = '0.1.0'
     }
     
     stages {
@@ -105,6 +108,18 @@ pipeline {
                 )
             }
         }
+        
+        
+        stage('デプロイ') {
+            steps {
+                gradlew 'jar'
+                archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
+                gradlew 'war'
+                archiveArtifacts "${libsDir}/${appName}-${appVersion}.war"
+                
+                deploy warDir: libsDir, appName: appName, appVersion: appVersion
+            }
+        }
     }
     
     
@@ -127,4 +142,18 @@ def gradlew(command) {
     } else {
         bat "./gradlew.bat ${command} --stacktrace"
     }
+}
+
+// srgs.warDir warの格納ディレクトリ 
+// args.appName アプリ名
+// args.appVersion アプリのバージョン
+def deploy(Map args) {
+    def keyDir = '/var/lib/jenkins/.ssh/takumon.pem'
+    def webServerAddress = 'ec2-user@ec2-54-244-213-3.us-west-2.compute.amazonaws.com'
+    
+    def srcWar = "${args.appName}-${args.appVersion}.war"
+    def destWar = "${args.appName}.war"
+    
+    sh "sudo -S scp -i ${keyDir} ./${args.warDir}/${srcWar} ${webServerAddress}:/home/ec2-user"
+    sh "sudo -S ssh -i ${keyDir} ${webServerAddress} \"sudo cp /home/ec2-user/${srcWar} /usr/share/tomcat8/webapps/${destWar}\""
 }
