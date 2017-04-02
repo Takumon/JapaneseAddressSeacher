@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import jp.takumon.japaneseaddresssearcher.App;
+import jp.takumon.japaneseaddresssearcher.RestConfig;
 
 /**
  * 例外ハンドラ
@@ -31,7 +31,7 @@ public class AppExceptionResolver extends AbstractHandlerExceptionResolver {
   @Override
   protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
     MappingJackson2JsonView view = new MappingJackson2JsonView();
-    view.setJsonPrefix(App.JSONP_CALLBACK_FUNCTION_NAME);
+    view.setJsonPrefix(RestConfig.JSONP_CALLBACK_FUNCTION_NAME);
     ModelAndView mav = new ModelAndView(view);
     ErrorResponse errorResponse = new ErrorResponse();
     errorResponse.setMessage(ex.getMessage());

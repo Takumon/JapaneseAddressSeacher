@@ -23,9 +23,10 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 
-version = '0.9'
 
 ext {
+    appVersion = '0.1.0'
+    appName = 'AddressSearcher'
     javaVersion = 1.8
     defaultEncoding = 'UTF-8'
     
@@ -45,35 +46,44 @@ repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
-
 dependencies {
+    def springBootVersion = '1.5.2.RELEASE'
     compile group: "org.webjars", name: "jquery", version: "2.2.4"
     compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
     
     compile 'com.h2database:h2:1.4.187'
     compile group: 'org.lazyluke', name:'log4jdbc-remix', version:'0.2.7'
-    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.2.RELEASE') {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '1.5.2.RELEASE'
-    compile group: "org.springframework.boot", name: "spring-boot-starter-jetty", version: '1.5.2.RELEASE'
-    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: '1.5.2.RELEASE'
-    compile group: 'org.springframework.boot', name:'spring-boot-starter-jdbc', version:'1.5.2.RELEASE'
-    compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:'1.5.2.RELEASE'
-    compile group: 'org.springframework.boot', name:'spring-boot-starter-thymeleaf', version:'1.5.2.RELEASE'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion)
+    // 実運用では既存のtomcatサーバにのせるため、開発中のみ組み込みtomcatを使用する
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
+    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: springBootVersion
+    compile group: 'org.springframework.boot', name:'spring-boot-starter-jdbc', version:springBootVersion
+    compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:springBootVersion
+    compile group: 'org.springframework.boot', name:'spring-boot-starter-thymeleaf', version:springBootVersion
     compile group: 'org.seasar.doma.boot', name: 'doma-spring-boot-starter', version: '1.1.0'
     
-    testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:'1.5.2.RELEASE'
-    testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:'1.5.2.RELEASE'
+    testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:springBootVersion
+    testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:springBootVersion
 	testCompile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.3.1'
 }
 
+bootRun {
+    addResources = true
+}
 
 jar {
-    baseName = 'address-searcher'
-    version =  '0.1.0'
+    baseName = appName
+    version =  appVersion
 }
+
+war {
+    baseName = appName
+    version =  appVersion
+}
+
 
 // Doma設定 コンパイル前にSQLファイルをビルド先に移動する
 processResources.destinationDir = compileJava.destinationDir
