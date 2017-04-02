@@ -13,12 +13,13 @@
 </head>
 <body>
   <nav class="navbar navbar-light navbar-inverse bg-faded fixed-top">
-    <a href="#" class="navbar-brand">住所検索</a>
+    <a href="#" class="navbar-brand">住所検索アプリ</a>
   </nav>
   <div class="container-fluid">
     <div class="row">
       <main>
         <section id="search-condition-area" class="col-md-12">
+          <h2>検索条件</h2>
           <form action="/address/search" th:action="@{/address/search}" method="post">
             <div class="form-group">
               <lable>郵便番号:</lable>
