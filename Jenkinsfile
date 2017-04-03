@@ -149,11 +149,14 @@ def gradlew(command) {
 // args.appVersion アプリのバージョン
 def deploy(Map args) {
     def keyDir = '/var/lib/jenkins/.ssh/takumon.pem'
-    def webServerAddress = 'ec2-user@ec2-54-244-213-3.us-west-2.compute.amazonaws.com'
+    def webServerAddress = 'ec2-54-148-2-4.us-west-2.compute.amazonaws.com'
+    def webServerUser = 'ec2-user'
+    def webServer = "${webServerUser}@${webServerAddress}"
     
     def srcWar = "${args.appName}-${args.appVersion}.war"
     def destWar = "${args.appName}.war"
     
-    sh "sudo -S scp -i ${keyDir} ./${args.warDir}/${srcWar} ${webServerAddress}:/home/ec2-user"
-    sh "sudo -S ssh -i ${keyDir} ${webServerAddress} \"sudo cp /home/ec2-user/${srcWar} /usr/share/tomcat8/webapps/${destWar}\""
+    
+    sh "sudo -S scp -i ${keyDir} ./${args.warDir}/${srcWar} ${webServer}:/home/ec2-user"
+    sh "sudo -S ssh -i ${keyDir} ${webServer} \"sudo cp /home/ec2-user/${srcWar} /usr/share/tomcat8/webapps/${destWar}\""
 }
