@@ -17,13 +17,15 @@ pipeline {
             steps {
                 deleteDir()
                 checkout scm
+                archiveArtifacts "Jenkinsfile"
+                archiveArtifacts "build.gradle"
                 script {
                     // permission deniedで怒られないために実行権限を付与する
                     if(isUnix()) {
                         sh 'chmod +x gradlew'
                     }
-                    gradlew 'clean'
                 }
+                gradlew 'clean'
             }
         }
         
