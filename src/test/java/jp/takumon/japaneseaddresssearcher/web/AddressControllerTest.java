@@ -50,7 +50,7 @@ public class AddressControllerTest {
   @Before
   public void setup() {
     this.mvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-  }￥
+  }
 
   @Test
   public void form_正常() throws Exception {
