@@ -59,19 +59,19 @@ pipeline {
                 
                         dir(reportDir) {
                             step([
-                                $class: 'hudson.plugins.checkstyle.CheckStylePublisher',
+                                $class: 'CheckStylePublisher',
                                 pattern: "checkstyle/*.xml"
                             ])
                             step([
-                                $class: 'hudson.plugins.findbugs.FindBugsPublisher',
+                                $class: 'FindBugsPublisher',
                                 pattern: "findbugs/*.xml"
                             ])
                             step([
-                                $class: 'hudson.plugins.pmd.PmdPublisher',
+                                $class: 'PmdPublisher',
                                 pattern: "pmd/*.xml"
                             ])
                             step([
-                                $class: 'hudson.plugins.dry.DryPublisher',
+                                $class: 'DryPublisher',
                                 pattern: "cpd/*.xml"
                             ])
                 
@@ -92,7 +92,7 @@ pipeline {
                     },
                     'タスクスキャン': {
                         step([
-                            $class: 'hudson.plugins.tasks.TasksPublisher',
+                            $class: 'TasksPublisher',
                             pattern: './**',
                             high: 'System.out.System.err',
                             normal: 'TODO,FIXME,XXX',
@@ -116,7 +116,7 @@ pipeline {
                     step([
                         $class: 'WarningsPublisher',
                         consoleParsers: [
-                            [parserName: 'JavaDoc Tool'],
+                            [parserName: 'JavaDoc Tool']
                         ],
                         canComputeNew: false,
                         canResolveRelativesPaths: false,
@@ -127,28 +127,32 @@ pipeline {
         }
         
 
-        stage('テスト、デプロイ') {
+        stage('テスト') {
             steps {
                 gradlew 'test jacocoTestReport -x classes -x testClasses'
                 
                 junit "${testReportDir}/*.xml"
                 archiveArtifacts "${testReportDir}/*.xml"
                 step([
-                    $class: 'hudson.plugins.jacoco.JacocoPublisher',
+                    $class: 'JacocoPublisher',
                     execPattern: "${jacocoReportDir}/*.exec",
                     exclusionPattern: '**/*Test.class,**/_*.class,**/TestHelper.class'
                 ])
             }
+        }
+        
+        stage('デプロイ') {
+            // テスト失敗時はデプロイしない
+            when {
+                expression {currentBuild.currentResult == 'SUCCESS'}
+            }
             
-            // テスト成功時のみデプロイする
-            post {
-                success {
-                    gradlew 'jar'
-                    archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
-                    gradlew 'war'
-                    archiveArtifacts "${libsDir}/${appName}-${appVersion}.war"
-                    deploy warDir: libsDir, appName: appName, appVersion: appVersion
-                }
+            steps {
+                gradlew 'jar'
+                archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
+                gradlew 'war'
+                archiveArtifacts "${libsDir}/${appName}-${appVersion}.war"
+                deploy warDir: libsDir, appName: appName, appVersion: appVersion
             }
         }
     }
@@ -158,17 +162,14 @@ pipeline {
         always {
             deleteDir()
         }
-        success {
-            mail to: "inouetakumon@gmail.com", subject: 'SUCCESS', body: "passed."
+        changed {
+            sendMail("${currentBuild.previousBuild.result} => ${currentBuild.currentResult}")
         }
         failure {
-            mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "failed."
+            sendMail(currentBuild.currentResult)
         }
         unstable {
-            mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "unstable."
-        }
-        changed {
-            mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "changed."
+            sendMail(currentBuild.currentResult)
         }
     }
 }
@@ -196,4 +197,11 @@ def deploy(Map args) {
     
     sh "sudo -S scp -i ${keyDir} ./${args.warDir}/${srcWar} ${webServer}:/home/ec2-user"
     sh "sudo -S ssh -i ${keyDir} ${webServer} \"sudo cp /home/ec2-user/${srcWar} /usr/share/tomcat8/webapps/${destWar}\""
+}
+
+
+def sendMail(result) {
+    mail to: "inouetakumon@gmail.com",
+        subject: "${env.JOB_NAME} #${env.BUILD_NUMBER} [${result}]",
+        body: "Build URL: ${env.BUILD_URL}.\n\n"
 }
