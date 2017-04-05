@@ -66,7 +66,7 @@ pipeline {
         }
         
 
-        stage('テストと静的コード解析') {
+        stage('テスト、静的コード解析、デプロイ') {
             steps {
                 parallel(
                     '静的コード解析' : {
@@ -109,17 +109,17 @@ pipeline {
                     }
                 )
             }
-        }
-        
-        
-        stage('デプロイ') {
-            steps {
-                gradlew 'jar'
-                archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
-                gradlew 'war'
-                archiveArtifacts "${libsDir}/${appName}-${appVersion}.war"
-                
-                deploy warDir: libsDir, appName: appName, appVersion: appVersion
+            
+            post {
+                // テスト成功時のみデプロイする
+                success {
+                    
+                    gradlew 'jar'
+                    archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
+                    gradlew 'war'
+                    archiveArtifacts "${libsDir}/${appName}-${appVersion}.war"
+                    deploy warDir: libsDir, appName: appName, appVersion: appVersion
+                }
             }
         }
     }
@@ -134,6 +134,12 @@ pipeline {
         }
         failure {
             mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "failed."
+        }
+        unstable {
+            mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "unstable."
+        }
+        changed {
+            mail to: "inouetakumon@gmail.com", subject: 'FAILURE', body: "changed."
         }
     }
 }
