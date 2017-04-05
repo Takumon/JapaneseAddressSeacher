@@ -31,42 +31,27 @@ pipeline {
         
         stage('コンパイル') {
             steps {
-                parallel(
-                    'ステップカウント': {
-                        stepcounter outputFile: 'stepcount.xls', outputFormat: 'excel', settings: [
-                            [key:'Java', filePattern: "${javaDir}/**/*.java"],
-                            [key:'SQL', filePattern: "${resourcesDir}/**/*.sql"],
-                            [key:'HTML', filePattern: "${resourcesDir}/**/*.html"],
-                            [key:'JS', filePattern: "${resourcesDir}/**/*.js"],
-                            [key:'CSS', filePattern: "${resourcesDir}/**/*.css"]
-                        ]
-                    },
-                    'JavaDoc': {
-                        gradlew 'javadoc -x classes'
-                        step([
-                            $class: 'hudson.tasks.JavadocArchiver',
-                            javadocDir: "${javadocDir}",
-                            keepAll: true
-                        ])
-                    },
-                    'タスクスキャン': {
-                        step([
-                            $class: 'hudson.plugins.tasks.TasksPublisher',
-                            pattern: './**',
-                            high: 'System.out.System.err',
-                            normal: 'TODO,FIXME,XXX',
-                            ignoreCase: true,
-                        ])
-                    },
-                    'コンパイル': {
-                        gradlew 'classes testClasses'
-                    }
-                )
+                gradlew 'classes testClasses'
+            }
+            
+            // JavaDoc生成時に実行するとJavaDocの警告も含まれてしまうので
+            // Javaコンパイル時の警告はコンパイル直後に収集
+            post {
+                always {
+                    step([
+                        $class: 'WarningsPublisher',
+                        consoleParsers: [
+                            [parserName: 'Java Compiler (javac)'],
+                        ],
+                        canComputeNew: false,
+                        canResolveRelativesPaths: false,
+                        usePreviousBuildAsReference: true
+                    ])
+                }
             }
         }
         
-
-        stage('テスト、静的コード解析、デプロイ') {
+        stage('静的コード解析') {
             steps {
                 parallel(
                     '静的コード解析' : {
@@ -96,24 +81,68 @@ pipeline {
                             archiveArtifacts "cpd/*.xml"
                         }
                     },
-                    'テスト' : {
-                        gradlew 'test jacocoTestReport -x classes -x testClasses'
-                
-                        junit "${testReportDir}/*.xml"
-                        archiveArtifacts "${testReportDir}/*.xml"
+                    'ステップカウント': {
+                        stepcounter outputFile: 'stepcount.xls', outputFormat: 'excel', settings: [
+                            [key:'Java', filePattern: "${javaDir}/**/*.java"],
+                            [key:'SQL', filePattern: "${resourcesDir}/**/*.sql"],
+                            [key:'HTML', filePattern: "${resourcesDir}/**/*.html"],
+                            [key:'JS', filePattern: "${resourcesDir}/**/*.js"],
+                            [key:'CSS', filePattern: "${resourcesDir}/**/*.css"]
+                        ]
+                    },
+                    'タスクスキャン': {
                         step([
-                            $class: 'hudson.plugins.jacoco.JacocoPublisher',
-                            execPattern: "${jacocoReportDir}/*.exec",
-                            exclusionPattern: '**/*Test.class,**/_*.class,**/TestHelper.class'
+                            $class: 'hudson.plugins.tasks.TasksPublisher',
+                            pattern: './**',
+                            high: 'System.out.System.err',
+                            normal: 'TODO,FIXME,XXX',
+                            ignoreCase: true,
+                        ])
+                    },
+                    'JavaDoc': {
+                        gradlew 'javadoc -x classes'
+                        step([
+                            $class: 'hudson.tasks.JavadocArchiver',
+                            javadocDir: "${javadocDir}",
+                            keepAll: true
                         ])
                     }
                 )
             }
             
+            // JavaDocの警告を収集
             post {
-                // テスト成功時のみデプロイする
+                always {
+                    step([
+                        $class: 'WarningsPublisher',
+                        consoleParsers: [
+                            [parserName: 'JavaDoc Tool'],
+                        ],
+                        canComputeNew: false,
+                        canResolveRelativesPaths: false,
+                        usePreviousBuildAsReference: true
+                    ])
+                }
+            }
+        }
+        
+
+        stage('テスト、デプロイ') {
+            steps {
+                gradlew 'test jacocoTestReport -x classes -x testClasses'
+                
+                junit "${testReportDir}/*.xml"
+                archiveArtifacts "${testReportDir}/*.xml"
+                step([
+                    $class: 'hudson.plugins.jacoco.JacocoPublisher',
+                    execPattern: "${jacocoReportDir}/*.exec",
+                    exclusionPattern: '**/*Test.class,**/_*.class,**/TestHelper.class'
+                ])
+            }
+            
+            // テスト成功時のみデプロイする
+            post {
                 success {
-                    
                     gradlew 'jar'
                     archiveArtifacts "${libsDir}/${appName}-${appVersion}.jar"
                     gradlew 'war'
