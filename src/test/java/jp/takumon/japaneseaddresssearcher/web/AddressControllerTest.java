@@ -50,7 +50,7 @@ public class AddressControllerTest {
   @Before
   public void setup() {
     this.mvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-  }
+  }￥
 
   @Test
   public void form_正常() throws Exception {
@@ -71,7 +71,7 @@ public class AddressControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("form"))
         .andExpect(model().attribute("addressList", addresses))
-        .andExpect(content().string(containsString("<title>住所検索</title>")))
+        .andExpect(content().string(containsString("<title>住所検索アプリ</title>")))
         .andExpect(content().string(containsString("検索結果")));
   }
 
