@@ -13,7 +13,7 @@ pipeline {
     }
     
     stages {
-        stage('事前準備') {
+        stage('チェックアウト') {
             steps {
                 deleteDir()
                 checkout scm
@@ -54,7 +54,7 @@ pipeline {
         stage('静的コード解析') {
             steps {
                 parallel(
-                    '静的コード解析' : {
+                    'Check' : {
                         gradlew 'check -x test'
                 
                         dir(reportDir) {
@@ -89,6 +89,7 @@ pipeline {
                             [key:'JS', filePattern: "${resourcesDir}/**/*.js"],
                             [key:'CSS', filePattern: "${resourcesDir}/**/*.css"]
                         ]
+                        archiveArtifacts "stepcount.xls"
                     },
                     'タスクスキャン': {
                         step([
