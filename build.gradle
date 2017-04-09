@@ -52,11 +52,9 @@ dependencies {
     compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
     
-    compile 'com.h2database:h2:1.4.187'
+    
     compile group: 'org.lazyluke', name:'log4jdbc-remix', version:'0.2.7'
     compile(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion)
-    // 実運用では既存のtomcatサーバにのせるため、開発中のみ組み込みtomcatを使用する
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
     compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: springBootVersion
@@ -64,6 +62,11 @@ dependencies {
     compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:springBootVersion
     compile group: 'org.springframework.boot', name:'spring-boot-starter-thymeleaf', version:springBootVersion
     compile group: 'org.seasar.doma.boot', name: 'doma-spring-boot-starter', version: '1.1.0'
+
+    // 開発中はH2と組み込みTomcat、運用中はMySQL,既存のTomcatを使う
+    providedRuntime 'com.h2database:h2:1.4.187'
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
     
     testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:springBootVersion
     testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:springBootVersion
