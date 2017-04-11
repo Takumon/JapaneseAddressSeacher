@@ -4,14 +4,18 @@ import java.io.Serializable;
 
 import org.seasar.doma.Entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * 市
- * 
+ * 市区町村
+ *
  * @author takumon
  */
+@ApiModel(value = "市区町村", description = "都道府県情報などを含めた市区町村の情報を持つ")
 @Entity
-public class City implements Serializable{
-  
+public class City implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   private int cityId;
@@ -29,42 +33,51 @@ public class City implements Serializable{
   private int sectionCount;
 
 
+  @ApiModelProperty(value = "市町村ID", required = true)
   public int getCityId() {
     return cityId;
   }
 
-
-  public void setCityId(int cityId) {
-    this.cityId = cityId;
-  }
-
-
+  @ApiModelProperty(value = "市区町村名（漢字）", required = true)
   public String getCityName() {
     return cityName;
   }
 
-
-  public void setCityName(String cityName) {
-    this.cityName = cityName;
-  }
-
-
+  @ApiModelProperty(value = "市区町村名カナ（全角カタカナ）", required = true)
   public String getCityKana() {
     return cityKana;
   }
 
-
-  public void setCityKana(String cityKana) {
-    this.cityKana = cityKana;
-  }
-
-
+  @ApiModelProperty(value = "都道府県ID", required = true)
   public int getStateId() {
     return stateId;
   }
 
+  @ApiModelProperty(value = "都道府県名（漢字）", required = true)
 
-  public void setStateId(int stateId) {
+  public void setCityId(final int cityId) {
+    this.cityId = cityId;
+  }
+
+  @ApiModelProperty(value = "都道府県名カナ（全角カタカナ）", required = true)
+  public void setCityName(final String cityName) {
+    this.cityName = cityName;
+  }
+
+  @ApiModelProperty(value = "市区町村に紐づく町域の件数", required = true)
+  public int getSectionCount() {
+    return sectionCount;
+  }
+
+
+
+  public void setCityKana(final String cityKana) {
+    this.cityKana = cityKana;
+  }
+
+
+
+  public void setStateId(final int stateId) {
     this.stateId = stateId;
   }
 
@@ -74,7 +87,7 @@ public class City implements Serializable{
   }
 
 
-  public void setStateName(String stateName) {
+  public void setStateName(final String stateName) {
     this.stateName = stateName;
   }
 
@@ -84,17 +97,12 @@ public class City implements Serializable{
   }
 
 
-  public void setStateKana(String stateKana) {
+  public void setStateKana(final String stateKana) {
     this.stateKana = stateKana;
   }
 
 
-  public int getSectionCount() {
-    return sectionCount;
-  }
-
-
-  public void setSectionCount(int sectionCount) {
+  public void setSectionCount(final int sectionCount) {
     this.sectionCount = sectionCount;
   }
 }

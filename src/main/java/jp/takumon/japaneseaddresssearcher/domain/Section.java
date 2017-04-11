@@ -5,11 +5,15 @@ import java.io.Serializable;
 
 import org.seasar.doma.Entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * 町
- * 
+ * 町域
+ *
  * @author takumon
  */
+@ApiModel(value = "町域", description = "都道府県情報、市区町村なども含めた町域情報を持つ")
 @Entity
 public class Section implements Serializable {
 
@@ -35,102 +39,101 @@ public class Section implements Serializable {
 
   private int addressCount;
 
+
+  @ApiModelProperty(value = "市町村ID", required = true)
   public int getSectionId() {
     return sectionId;
   }
 
-
-  public void setSectionId(int sectionId) {
-    this.sectionId = sectionId;
-  }
-
-
+  @ApiModelProperty(value = "町域名（漢字）")
   public String getSectionName() {
     return sectionName;
   }
 
-
-  public void setSectionName(String sectionName) {
-    this.sectionName = sectionName;
-  }
-
-
+  @ApiModelProperty(value = "町域名カナ（全角カタカナ）")
   public String getSectionKana() {
     return sectionKana;
   }
 
-
-  public void setSectionKana(String sectionKana) {
-    this.sectionKana = sectionKana;
-  }
-
-
+  @ApiModelProperty(value = "町域ID", required = true)
   public int getCityId() {
     return cityId;
   }
 
-
-  public void setCityId(int cityId) {
-    this.cityId = cityId;
-  }
-
-
+  @ApiModelProperty(value = "市区町村名（漢字）", required = true)
   public String getCityName() {
     return cityName;
   }
 
-
-  public void setCityName(String cityName) {
-    this.cityName = cityName;
-  }
-
-
+  @ApiModelProperty(value = "市区町村名カナ（全角カタカナ）", required = true)
   public String getCityKana() {
     return cityKana;
   }
 
-
-  public void setCityKana(String cityKana) {
-    this.cityKana = cityKana;
-  }
-
-
+  @ApiModelProperty(value = "都道府県ID", required = true)
   public int getStateId() {
     return stateId;
   }
 
-
-  public void setStateId(int stateId) {
-    this.stateId = stateId;
-  }
-
-
+  @ApiModelProperty(value = "都道府県名（漢字）", required = true)
   public String getStateName() {
     return stateName;
   }
 
-
-  public void setStateName(String stateName) {
-    this.stateName = stateName;
-  }
-
-
+  @ApiModelProperty(value = "都道府県名カナ（全角カタカナ）", required = true)
   public String getStateKana() {
     return stateKana;
   }
 
-
-  public void setStateKana(String stateKana) {
-    this.stateKana = stateKana;
-  }
-
-
+  @ApiModelProperty(value = "町域に紐づく住所の件数", required = true)
   public int getAddressCount() {
     return addressCount;
   }
 
 
-  public void setAddressCount(int addressCount) {
+
+  public void setSectionId(final int sectionId) {
+    this.sectionId = sectionId;
+  }
+
+  public void setSectionName(final String sectionName) {
+    this.sectionName = sectionName;
+  }
+
+
+  public void setSectionKana(final String sectionKana) {
+    this.sectionKana = sectionKana;
+  }
+
+  public void setCityId(final int cityId) {
+    this.cityId = cityId;
+  }
+
+  public void setCityName(final String cityName) {
+    this.cityName = cityName;
+  }
+
+
+  public void setCityKana(final String cityKana) {
+    this.cityKana = cityKana;
+  }
+
+  public void setStateId(final int stateId) {
+    this.stateId = stateId;
+  }
+
+
+  public void setStateName(final String stateName) {
+    this.stateName = stateName;
+  }
+
+
+  public void setStateKana(final String stateKana) {
+    this.stateKana = stateKana;
+  }
+
+
+  public void setAddressCount(final int addressCount) {
     this.addressCount = addressCount;
   }
 

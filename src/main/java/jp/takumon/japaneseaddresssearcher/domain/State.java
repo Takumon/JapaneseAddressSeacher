@@ -4,11 +4,15 @@ import java.io.Serializable;
 
 import org.seasar.doma.Entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 都道府県
- * 
+ *
  * @author takumon
  */
+@ApiModel(value = "都道府県", description = "都道府県の情報を持つ")
 @Entity
 public class State implements Serializable {
 
@@ -22,43 +26,41 @@ public class State implements Serializable {
 
   private int cityCount;
 
-
+  @ApiModelProperty(value = "都道府県ID", required = true)
   public int getStateId() {
     return stateId;
   }
 
-
-  public void setStateId(int stateId) {
-    this.stateId = stateId;
-  }
-
-
+  @ApiModelProperty(value = "都道府県名（漢字）", required = true)
   public String getStateName() {
     return stateName;
   }
 
-
-  public void setStateName(String stateName) {
-    this.stateName = stateName;
-  }
-
-
+  @ApiModelProperty(value = "都道府県名カナ（全角カタカナ）", required = true)
   public String getStateKana() {
     return stateKana;
   }
 
-
-  public void setStateKana(String stateKana) {
-    this.stateKana = stateKana;
-  }
-
-
+  @ApiModelProperty(value = "都道府県に紐づく市区町村の件数", required = true)
   public int getCityCount() {
     return cityCount;
   }
 
+  public void setStateId(final int stateId) {
+    this.stateId = stateId;
+  }
 
-  public void setCityCount(int cityCount) {
+
+  public void setStateName(final String stateName) {
+    this.stateName = stateName;
+  }
+
+
+  public void setStateKana(final String stateKana) {
+    this.stateKana = stateKana;
+  }
+
+  public void setCityCount(final int cityCount) {
     this.cityCount = cityCount;
   }
 }
