@@ -1,10 +1,5 @@
+# デフォルト設定　開発環境(インメモリDBを使用)の設定
 spring:
-    profiles:
-        active: development
----
-# 開発環境(インメモリDBを使用)の設定
-spring:
-    profiles: development
     thymeleaf.cache: false #開発中はキャシュしない
     datasource:
         driverClassName: org.h2.Driver
@@ -24,28 +19,20 @@ search:
     offset: 0
     limit: 500
 
+management.security.enabled: false
+
 ---
 # 開発環境（ローカルのMySQLを使用）の設定
 spring:
     profiles: development_local_mysql
-    thymeleaf.cache: false #開発中はキャシュしない
     datasource:
         driverClassName: com.mysql.jdbc.Driver
         url: jdbc:mysql://localhost:3306/ADDRESS_SEARCH
         username: pgtop
         password: 12345
         initialize: false #データはDataBaseにあらかじめセットしているためdata.sqlを読み込まない
-    devtools:
-      restart:
-        enabled: true
 doma:
     dialect: MYSQL
-    naming: SNAKE_LOWER_CASE
-    sql-file-repository: NO_CACHE
-#検索条件のプロパティ
-search:
-    offset: 0
-    limit: 500
 ---
 # 本番環境の設定
 spring:
@@ -57,14 +44,6 @@ spring:
         username: pgtop
         password: 12345
         initialize: false #データはDataBaseにあらかじめセットしているためdata.sqlを読み込まない
-    devtools:
-      restart:
-        enabled: true
 doma:
     dialect: MYSQL
-    naming: SNAKE_LOWER_CASE
-    sql-file-repository: NO_CACHE
-#検索条件のプロパティ
-search:
-    offset: 0
-    limit: 500
+    
