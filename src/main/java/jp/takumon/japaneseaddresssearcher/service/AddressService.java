@@ -19,7 +19,7 @@ import jp.takumon.japaneseaddresssearcher.service.convert.AddressSortHelper;
 
 /**
  * 住所検索サービス
- * 
+ *
  * @author takumon
  */
 @Service
@@ -38,7 +38,8 @@ public class AddressService {
     State result = addressRepository.getState(stateName);
 
     if (result == null) {
-      throw new ProcessException("指定したstateName[%s]に紐づくStateは見つかりませんでした。");
+      throw new ProcessException(
+          String.format("指定したstateName[%s]に紐づくStateは見つかりませんでした。", stateName));
     }
     return result;
   }
