@@ -59,6 +59,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
     compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-actuator-docs', version: springBootVersion
+    compile group: 'am.ik.beansviz', name: 'beansviz-spring-boot-actuator', version: '0.1.0'
+    
     
     compile group: 'org.springframework.boot', name:'spring-boot-starter-jdbc', version:springBootVersion
     compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:springBootVersion
