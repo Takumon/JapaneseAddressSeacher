@@ -6,6 +6,7 @@ spring:
         url: jdbc:h2:file:./data
         username: sa
         password:
+        sql-script-encoding: UTF-8
     devtools:
       restart:
         enabled: true
@@ -43,6 +44,9 @@ spring:
         username: pgtop
         password: 12345
         initialize: false #データはDataBaseにあらかじめセットしているためdata.sqlを読み込まない
+    devtools:
+      restart:
+        enabled: true
 doma:
     dialect: MYSQL
     
