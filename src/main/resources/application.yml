@@ -6,7 +6,6 @@ spring:
         url: jdbc:h2:file:./data
         username: sa
         password:
-        sql-script-encoding: UTF-8
     devtools:
       restart:
         enabled: true
