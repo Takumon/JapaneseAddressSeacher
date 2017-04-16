@@ -1,8 +1,8 @@
 package jp.takumon.japaneseaddresssearcher.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Matchers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +41,8 @@ public class AddressServiceTest {
     List<State> states = new ArrayList<>();
     states.add(TestHelper.createState(13, "東京都", "トウキョウト", 600));
     states.add(TestHelper.createState(40, "福岡県", "フクオカケン", 300));
-    given(this.addressRepository.getStates()).willReturn(states);
-    
+    given(addressRepository.getStates()).willReturn(states);
+
     List<State> actual = addressService.getStates();
     assertThat(actual).isEqualTo(states);
   }
@@ -54,7 +54,7 @@ public class AddressServiceTest {
     cities.add(TestHelper.createCity(13101, "千代田区", "チヨダク", 500, 13, "東京都", "トウキョウト"));
     cities.add(TestHelper.createCity(40133, "福岡市中央区", "フクオカシチュウオウク", 500, 40, "福岡県", "フクオカケン"));
 
-    given(this.addressRepository.getCities(anyString())).willReturn(cities);
+    given(addressRepository.getCities(anyString())).willReturn(cities);
     List<City> actual = addressService.getCities("福岡県");
     assertThat(actual).isEqualTo(cities);
   }

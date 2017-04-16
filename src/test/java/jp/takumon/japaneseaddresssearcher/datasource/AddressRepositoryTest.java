@@ -1,5 +1,8 @@
 package jp.takumon.japaneseaddresssearcher.datasource;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+
 import java.util.List;
 
 import org.junit.Rule;
@@ -15,9 +18,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import jp.takumon.japaneseaddresssearcher.App;
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -27,7 +27,7 @@ public class AddressRepositoryTest {
 
   @Rule
   public ErrorCollector collector = new ErrorCollector();
-  
+
   @Autowired
   private AddressRepository addressRepository;
 
