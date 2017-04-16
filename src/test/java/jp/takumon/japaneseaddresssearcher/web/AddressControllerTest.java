@@ -1,5 +1,12 @@
 package jp.takumon.japaneseaddresssearcher.web;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,23 +24,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 import jp.takumon.japaneseaddresssearcher.App;
 import jp.takumon.japaneseaddresssearcher.TestHelper;
 import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.service.AddressService;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-
 
 @RunWith(SpringRunner.class)
+@WebMvcTest(AddressController.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = App.class,
     initializers = ConfigFileApplicationContextInitializer.class)
@@ -44,18 +46,24 @@ public class AddressControllerTest {
   @MockBean
   private AddressService addressService;
 
+  @Autowired
+  private WebClient webClient;
+
   private MockMvc mvc;
 
 
   @Before
   public void setup() {
-    this.mvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    mvc = MockMvcBuilders.webAppContextSetup(wac).build();
   }
 
   @Test
   public void form_正常() throws Exception {
-    this.mvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("form"))
-        .andExpect(content().string(containsString("<title>住所検索</title>")));
+    HtmlPage page = webClient. getPage("/");
+    assertThat(page.getTitleText()).isEqualTo("住所検索");
+    assertThat(page.getElementByName("addressZipCode").getAttribute("value")).isEqualTo("");
+    assertThat(page.getElementById("search-result-area")).isNull();
+
 
   }
 
@@ -67,7 +75,7 @@ public class AddressControllerTest {
 
     given(addressService.getAddress("001-0011")).willReturn(addresses);
 
-    this.mvc.perform(post("/address/search").param("addressZipCode", "001-0011"))
+    mvc.perform(post("/address/search").param("addressZipCode", "001-0011"))
         .andExpect(status().isOk())
         .andExpect(view().name("form"))
         .andExpect(model().attribute("addressList", addresses))
@@ -84,7 +92,7 @@ public class AddressControllerTest {
     given(addressService.getAddress(anyString())).willReturn(addresses);
 
     // リクエストパラメータにaddressZipCodeを定義しない
-    this.mvc.perform(post("/address/search"))
+    mvc.perform(post("/address/search"))
         .andExpect(status().is(400));
   }
 }
