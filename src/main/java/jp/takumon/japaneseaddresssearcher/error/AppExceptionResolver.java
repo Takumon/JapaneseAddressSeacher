@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import jp.takumon.japaneseaddresssearcher.RestConfig;
+import jp.takumon.japaneseaddresssearcher.config.RestConfig;
 
 /**
  * 例外ハンドラ

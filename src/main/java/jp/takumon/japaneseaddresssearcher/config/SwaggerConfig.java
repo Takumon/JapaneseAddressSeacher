@@ -1,4 +1,4 @@
-package jp.takumon.japaneseaddresssearcher;
+package jp.takumon.japaneseaddresssearcher.config;
 
 
 import static com.google.common.base.Predicates.*;

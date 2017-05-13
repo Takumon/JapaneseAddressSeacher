@@ -1,8 +1,10 @@
-package jp.takumon.japaneseaddresssearcher;
+package jp.takumon.japaneseaddresssearcher.config;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Configuration;
+
+import jp.takumon.japaneseaddresssearcher.App;
 
 /**
  * サーブレットの初期化設定
