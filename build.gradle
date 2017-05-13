@@ -1,12 +1,13 @@
 buildscript {
     repositories {
-        maven {url "http //repo1.maven.org/maven2"}
-        maven {url "https //plugins.gradle.org/m2"}
+        maven {url "http//repo1.maven.org/maven2"}
+        maven {url "https//plugins.gradle.org/m2"}
         mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
     }
 }
 
@@ -21,6 +22,7 @@ apply plugin: 'jacoco'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: "org.sonarqube"
 
 
 
@@ -49,30 +51,34 @@ repositories {
 dependencies {
     def springBootVersion = '1.5.2.RELEASE'
     
-    // クライアント関連
+    // クライアント
     compile group: "org.webjars", name: "jquery", version: "2.2.4"
     compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.32'
     
 
-    // Spring関連
+    // Spring framework
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
-    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-actuator-docs', version: springBootVersion
-    compile group: 'am.ik.beansviz', name: 'beansviz-spring-boot-actuator', version: '0.1.0'
     compile group: 'org.springframework.boot', name:'spring-boot-starter-jdbc', version:springBootVersion
     compile group: 'org.springframework.boot', name:'spring-boot-starter-aop', version:springBootVersion
     compile group: 'org.springframework.boot', name:'spring-boot-starter-thymeleaf', version:springBootVersion
     compile group: 'org.seasar.doma.boot', name: 'doma-spring-boot-starter', version: '1.1.0'
+    compile group: 'org.springframework.boot', name:'spring-boot-starter-security', version:springBootVersion
 
-    // DBとWebサーバ関連
+	// 開発で必要なライブラリ
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: springBootVersion
+    compile group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-actuator-docs', version: springBootVersion
+    compile group: 'am.ik.beansviz', name: 'beansviz-spring-boot-actuator', version: '0.1.0'
+    compile group: 'org.jolokia', name: 'jolokia-core', version: '1.3.6'
+
+    // DBとWebサーバ
     // 開発中はH2と組み込みTomcat、運用中はMySQL,既存のTomcatを使う
     providedRuntime 'com.h2database:h2:1.4.187'
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
     
-	// ドキュメント関連
+	// ドキュメント
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.1'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.1'
     
@@ -83,6 +89,7 @@ dependencies {
     // テスト関連
     testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:springBootVersion
     testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:springBootVersion
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.2.RELEASE'
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.3.1'
     testCompile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.23'
     testCompile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.23'
@@ -183,6 +190,20 @@ jacocoTestReport {
     }
 }
 
+// ローカル用タスク
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000/"
+        property "sonar.exclusions", "**/*Test.java"
+        property "sonar.projectName", "AddressSearcher"
+        property "sonar.projectVersion", appVersion
+        property 'sonar.junit.reportsPath', "${buildDir}/test-results/test"
+        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.findbugs.effort", "Max"
+        property "sonar.findbugs.confidenceLevel", "low"
+    }
+}
+
 task wrapper (type: Wrapper) {
-    gradleVersion = '3.4.1'
+    gradleVersion = '2.14.1'
 }

@@ -8,3 +8,5 @@ build
 .project
 .factorypath
 data.mv.db
+data.trace.db
+app.log

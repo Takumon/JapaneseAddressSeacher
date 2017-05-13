@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ import jp.takumon.japaneseaddresssearcher.service.AddressService;
  * @author takumon
  */
 @RestController
-@RequestMapping("/api/v1/jp")
+@RequestMapping(value = "/api/v1/jp")
 @Validated
 public class AddressRestController {
 

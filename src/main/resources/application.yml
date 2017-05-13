@@ -1,5 +1,7 @@
 # デフォルト設定　開発環境(インメモリDBを使用)の設定
 spring:
+    application:
+      name: JapaneseAddressSearcher
     thymeleaf.cache: false #開発中はキャシュしない
     datasource:
         driverClassName: org.h2.Driver
@@ -14,12 +16,23 @@ doma:
     dialect: H2
     naming: SNAKE_LOWER_CASE
     sql-file-repository: NO_CACHE
+server:
+  error:
+    include-stacktrace: always
+security:
+  user:
+    name: user
+    password: pass
+logging:
+  file: app.log
+management:
+  context-path: /actuator
+  security:
+    enabled: false
 #検索条件のプロパティ
 search:
     offset: 0
     limit: 500
-
-management.security.enabled: false
 
 ---
 # 開発環境（ローカルのMySQLを使用）の設定
