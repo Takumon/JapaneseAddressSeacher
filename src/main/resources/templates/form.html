@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8" ></meta>
-<title>住所検索</title>
-<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-<link href="/css/form.css" rel="stylesheet"/>
-<script th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/axios/dist/axios.min.js}"></script>
+<head th:replace="base :: common_head(title = ~{::title}, links = ~{::link})">
+  <title>住所検索</title>
+  <link href="/css/form.css" rel="stylesheet"/>
 </head>
 <body>
-  <nav class="navbar navbar-light navbar-inverse bg-faded fixed-top">
-    <a href="#" class="navbar-brand">住所検索アプリ</a>
-  </nav>
+  <th:block th:replace="base :: common_header" />
+
   <div class="container-fluid">
     <div class="row">
       <main>
@@ -27,10 +21,10 @@
             <button type="submit" class="btn btn-primary">住所を検索</button>
           </form>
         </section>
-        
+
         <section id="search-result-area" class="col-md-12 table-responsive" th:if="${addressList != null and addressList.isEmpty() == false}">
           <h2>検索結果<span id="result-count" th:text="' ' + ${addressList.size() + '件'}"></span></h2>
-          <table class="table table-striped" >
+          <table class="table table-bordered table-striped" >
             <thead>
               <tr>
                 <th>郵便番号</th>
@@ -58,5 +52,7 @@
       </main>
     </div>
   </div>
+
+  <th:block th:replace="base :: common_footer" />
 </body>
 </html>

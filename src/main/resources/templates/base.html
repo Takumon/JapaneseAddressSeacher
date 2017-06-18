@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="common_head">
+  <meta charset="UTF-8" ></meta>
+
+  <!-- 各Viewのタイトル -->
+  <title th:replace="${title}">The awesome application</title>
+
+  <!-- どのViewでも必ず読み込むファイル -->
+  <link th:href="@{/webjars/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet"/>
+  <link href="/css/common.css" rel="stylesheet"/>
+  <script th:src="@{/webjars/jquery/3.2.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/dist/js/bootstrap.min.js}"></script>
+  <script th:src="@{/webjars/axios/dist/axios.min.js}"></script>
+
+  <!-- 各View固有で読み込むリンク -->
+  <th:block th:if="${links}">
+    <th:block th:replace="${links}" />
+  </th:block>
+  <th:block th:if="${scripts}">
+    <th:block th:replace="${scripts}" />
+  </th:block>
+</head>
+
+<body>
+  <nav th:fragment="common_header" class="navbar navbar-light navbar-inverse bg-faded fixed-top">
+    <a href="#" class="navbar-brand">住所検索アプリ</a>
+  </nav>
+
+  <div class="container-fluid">
+    <h1>This is base.html.</h1>
+  </div>
+
+  <footer th:fragment="common_footer" class="footer">
+    <div class="container">
+      <p class="text-muted">住所検索アプリ</p>
+    </div>
+  </footer>
+</body>
+</html>
