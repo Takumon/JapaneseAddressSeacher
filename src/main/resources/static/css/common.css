@@ -8,6 +8,11 @@ body {
   margin-bottom: 5em;
 }
 
+/* ヘッダー */
+.navbar {
+  border-radius: 0;
+}
+
 
 /* フッター */
 .footer {

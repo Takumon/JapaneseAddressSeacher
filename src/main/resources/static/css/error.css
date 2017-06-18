@@ -2,3 +2,9 @@
 table {
   margin: 4em 0;
 }
+
+#search-area {
+  margin: 0;
+  box-shadow: 1px 1px 3px;
+  margin: 0 1em;
+}

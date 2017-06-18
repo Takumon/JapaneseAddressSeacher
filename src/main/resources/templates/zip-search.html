@@ -8,19 +8,23 @@
 <body>
   <th:block th:replace="base :: common_header" />
 
-  <div class="container-fluid">
+  <div class="main container-fluid">
     <div class="row">
-      <main>
-        <section class="col-md-12">
-          <div th:each="state : ${stateList}" th:object="${state}">
-            <span th:text="*{stateId}"></span>
-            <span th:text="*{stateName}"></span>
-            <span th:text="*{stateKana}"></span>
-            <span th:text="*{regionName}"></span>
-            <span th:text="*{regionKana}"></span>
+      <section class="col-12">
+        <div id="search-area">
+          <div id="search-area-title">
+            <h1>住所一覧検索</h1>
+            <small>住所の階層を辿って目的の住所の地図を検索することが出来ます。都道府県から順に目的の住所を選択してください。</small>
           </div>
-        </section>
-      </main>
+          <div th:each="entry : ${StatesWithReagion}">
+            <div class="region-tilte" th:text="${entry.key}"></div>
+            <div class="row state-area">
+              <div class="col-xs-6 col-sm-4 col-md-3 state-block" th:each="state : ${entry.value}" th:object="${state}">                <a th:href="*{stateId}" th:text="*{stateName}"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 

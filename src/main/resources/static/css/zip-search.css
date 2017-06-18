@@ -1,1 +1,30 @@
 @CHARSET "UTF-8";
+
+.region-tilte {
+    background: #fbfbfb;
+    border-left: 1em solid #7ac1ff;
+    padding: 1em 1em;
+}
+
+#search-area {
+  margin: 2em;
+  padding: 2em;
+  box-shadow: 0 0 1em grey;
+}
+
+.state-block {
+    text-align: center;
+    height: 4em;
+    line-height: 4em;
+}
+
+.state-block > a {
+  font-size: 1.1em;
+  text-decoration: none;
+  display: block;
+}
+
+
+.state-block > a:hover {
+  background-color: #f0f8ff;
+}
