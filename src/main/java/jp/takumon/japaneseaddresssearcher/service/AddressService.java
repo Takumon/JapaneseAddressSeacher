@@ -1,6 +1,9 @@
 package jp.takumon.japaneseaddresssearcher.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.ValidationException;
 
@@ -136,11 +139,17 @@ public class AddressService {
   }
   
   /**
-   * 地域と都道府県の情報を取得する.
+   * 都道府県を地域ごとにまとめたマップを取得する.
    * 
-   * @return 地域と都道府県の情報のリスト
+   * @return 都道府県を地域ごとにまとめたマップ
    */
-  public List<StateWithRegion> getStatesWithRegion() {
-     return addressRepository.getStatesWithRegion();
+  public LinkedHashMap<String, List<StateWithRegion>> getStatesWithRegion() {
+	// 地域はDB取得時に昇順に並んでいる前提で処理を行う
+    return addressRepository.getStatesWithRegion() //
+				.stream() //
+				.collect(Collectors.groupingBy( //
+						StateWithRegion::getRegionName, //
+						LinkedHashMap::new,  //
+						Collectors.toList()));
   }
 }

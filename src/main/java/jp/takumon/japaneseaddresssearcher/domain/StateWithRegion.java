@@ -23,6 +23,8 @@ public class StateWithRegion implements Serializable {
 	private String stateName;
 
 	private String stateKana;
+	
+	private int regionId;
 
 	private String regionName;
 
@@ -41,6 +43,11 @@ public class StateWithRegion implements Serializable {
 	@ApiModelProperty(value = "都道府県名カナ（全角カタカナ）", required = true)
 	public String getStateName() {
 		return stateName;
+	}
+	
+	@ApiModelProperty(value = "地域ID", required = true)
+	public int getRegionId() {
+		return regionId;
 	}
 
 	@ApiModelProperty(value = "地域名（漢字）", required = true)
@@ -65,6 +72,10 @@ public class StateWithRegion implements Serializable {
 		this.stateKana = stateKana;
 	}
 
+	public void setRegionId(int regionId) {
+		this.regionId = regionId;
+	}
+	
 	public void setRegionName(String regionName) {
 		this.regionName = regionName;
 	}

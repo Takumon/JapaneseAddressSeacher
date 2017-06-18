@@ -64,8 +64,7 @@ public class AddressController {
 	@RequestMapping(value = "/zip-search", method = RequestMethod.GET)
 	public ModelAndView zipSearch() {
 		ModelAndView model = new ModelAndView();
-		List<StateWithRegion> stateList = addressService.getStatesWithRegion();
-		model.addObject("stateList", stateList);
+		model.addObject("StatesWithReagion", addressService.getStatesWithRegion());
 		model.setViewName("zip-search");
 		return model;
 	}
