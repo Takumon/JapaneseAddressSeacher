@@ -22,5 +22,29 @@ CREATE TABLE address
  	`office_name` varchar(500) default NULL,
  	`office_kana` varchar(500) default NULL,
  	`office_address` varchar(500) default NULL,
- 	`new_id` int(11) default NULL, PRIMARY KEY  (`id`)
+ 	`new_id` int(11) default NULL,
+   PRIMARY KEY  (`id`)
  	) DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS region;
+CREATE TABLE region
+(
+  `region_id` int(2) NOT NULL,
+  `region_name` varchar(100) default NULL,
+  `region_kana` varchar(100) default NULL,
+  PRIMARY KEY  (`region_id`)
+) DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS state;
+CREATE TABLE state
+(
+  `state_id` int(2) NOT NULL,
+  `state_name` varchar(100) default NULL,
+  `state_kana` varchar(100) default NULL,
+  `region_id` int(2) NOT NULL,
+  FOREIGN KEY (region_id) REFERENCES region(region_id),
+  PRIMARY KEY  (`state_id`)
+) DEFAULT CHARSET=utf8;
