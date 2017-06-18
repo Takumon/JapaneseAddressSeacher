@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE"
     }
 }
 
@@ -31,8 +31,11 @@ ext {
     appName = 'AddressSearcher'
     javaVersion = 1.8
     defaultEncoding = 'UTF-8'
-    
 }
+
+ext['thymeleaf.version'] = '3.0.6.RELEASE'
+ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
 
 
 sourceCompatibility = javaVersion
@@ -49,15 +52,15 @@ repositories {
 }
 
 dependencies {
-    def springBootVersion = '1.5.2.RELEASE'
-    
+    def springBootVersion = '1.5.4.RELEASE'
+
     // クライアント
     compile group: 'org.webjars', name: 'webjars-locator', version: '0.32-1'
     compile group: "org.webjars", name: "jquery", version: "3.2.0"
     compile group: "org.webjars.bower", name: "bootstrap", version: "3.3.7"
     compile group: 'org.webjars.npm', name: 'axios', version: '0.16.1'
-    
-    
+
+
 
     // Spring framework
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
@@ -79,15 +82,15 @@ dependencies {
     providedRuntime 'com.h2database:h2:1.4.187'
     providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
-    
+
 	// ドキュメント
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.1'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.1'
-    
+
     // その他
     compile group: 'com.google.guava', name: 'guava', version: '21.0'
     compile group: 'org.lazyluke', name:'log4jdbc-remix', version:'0.2.7'
-    
+
     // テスト関連
     testCompile group: 'org.springframework.boot', name:'spring-boot-starter-test', version:springBootVersion
     testCompile group: 'org.springframework.boot', name:'spring-boot-test-autoconfigure', version:springBootVersion
@@ -139,12 +142,12 @@ tasks.withType(Pmd) {
 check.doLast {
     File outputDir = new File("$reportsDir/cpd/")
     outputDir.mkdirs()
-  
+
     ant.taskdef(
-        name: 'cpd', 
+        name: 'cpd',
         classname: 'net.sourceforge.pmd.cpd.CPDTask',
         classpath: configurations.pmd.asPath)
-  
+
     ant.cpd(
         minimumTokenCount: '100',
         format: 'xml',
@@ -179,15 +182,15 @@ jacocoTestReport {
       html.enabled = true
       xml.enabled = true
     }
-    
+
     // カバレッジ測定対象外のクラスを除外
-    afterEvaluate { 
+    afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                 '**/*Test.class', // Testクラス
                 '**/_*.class', // Domaが生成するクラス
                 '**/TestHelper.class', // Test用ユーティルクラス
-            ]) 
+            ])
         })
     }
 }
