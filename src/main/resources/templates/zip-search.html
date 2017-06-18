@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="base :: common_head(title = ~{::title}, links = ~{::link}, scripts = ~{::script})">
+  <title>郵便番号検索</title>
+  <link href="/css/zip-search.css" rel="stylesheet"/>
+  <script src="/js/zip-search.js"></script>
+</head>
+<body>
+  <th:block th:replace="base :: common_header" />
+
+  <div class="container-fluid">
+    <div class="row">
+      <main>
+        <section class="col-md-12">
+          <div th:each="state : ${stateList}" th:object="${state}">
+            <span th:text="*{stateId}"></span>
+            <span th:text="*{stateName}"></span>
+            <span th:text="*{stateKana}"></span>
+            <span th:text="*{regionName}"></span>
+            <span th:text="*{regionKana}"></span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <th:block th:replace="base :: common_footer" />
+</body>
+</html>

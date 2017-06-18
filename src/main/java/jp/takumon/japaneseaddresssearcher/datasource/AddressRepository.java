@@ -11,6 +11,7 @@ import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
 import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
+import jp.takumon.japaneseaddresssearcher.domain.StateWithRegion;
 
 /**
  * 住所リポジトリ
@@ -55,4 +56,7 @@ public interface AddressRepository {
 
   @Select
   List<Address> findByKeyword(String keyword, String orderBy, SelectOptions options);
+  
+  @Select
+  List<StateWithRegion> getStatesWithRegion();
 }

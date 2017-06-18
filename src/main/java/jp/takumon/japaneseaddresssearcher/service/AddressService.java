@@ -13,6 +13,7 @@ import jp.takumon.japaneseaddresssearcher.domain.Address;
 import jp.takumon.japaneseaddresssearcher.domain.City;
 import jp.takumon.japaneseaddresssearcher.domain.Section;
 import jp.takumon.japaneseaddresssearcher.domain.State;
+import jp.takumon.japaneseaddresssearcher.domain.StateWithRegion;
 import jp.takumon.japaneseaddresssearcher.error.ProcessException;
 import jp.takumon.japaneseaddresssearcher.service.convert.AddressSort;
 import jp.takumon.japaneseaddresssearcher.service.convert.AddressSortHelper;
@@ -29,6 +30,11 @@ public class AddressService {
   private AddressRepository addressRepository;
 
 
+  /**
+   * 都道府県のリストを取得する.
+   * 
+   * @return 都道府県のリスト
+   */
   public List<State> getStates() {
     return addressRepository.getStates();
   }
@@ -127,5 +133,14 @@ public class AddressService {
       throw new ProcessException(String.format("指定したkeyword[%s]に紐づく住所は見つかりませんでした。", keyword));
     }
     return result;
+  }
+  
+  /**
+   * 地域と都道府県の情報を取得する.
+   * 
+   * @return 地域と都道府県の情報のリスト
+   */
+  public List<StateWithRegion> getStatesWithRegion() {
+     return addressRepository.getStatesWithRegion();
   }
 }
