@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * アプリケーションの設定.
- * 
+ *
  * @author takumon
  */
 @Configuration
@@ -20,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http //
 				.formLogin().loginPage("/login").permitAll().and() //
 				.logout().logoutUrl("/logout").and() //
-				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()//
+				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/h2-console/**").and()
+				.antMatcher("/h2-console/**").headers().frameOptions().disable().and() //
 				.authorizeRequests() //
 				.antMatchers("/login.html", //
 						"/**/*.css", //
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/**").authenticated().and() //
 				.httpBasic();
 	}
-	
+
 	@Configuration
 	static protected class LoginController extends WebMvcConfigurerAdapter {
 
